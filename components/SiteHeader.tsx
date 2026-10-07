@@ -10,7 +10,7 @@ const navItems = [
   { label: "Snowbike", href: "/snowbike" },
   { label: "Снегоходы", href: "/catalog" },
   { label: "Доставка", href: "/delivery" },
-  { label: "О нас", href: "/about" },
+  { label: "Контакты", href: "/about" },
 ];
 
 export function SiteHeader() {

@@ -7,7 +7,7 @@ const footerLinks = [
   { label: "Snowbike", href: "/snowbike" },
   { label: "Каталог снегоходов", href: "/catalog" },
   { label: "Доставка и заказ", href: "/delivery" },
-  { label: "О нас и контакты", href: "/about" },
+  { label: "Контакты", href: "/about#contacts" },
 ];
 
 export function SiteFooter() {
@@ -19,7 +19,7 @@ export function SiteFooter() {
       <div className="site-footer__main page-shell">
         <div className="site-footer__brand">
           <BrandMark />
-          <p>Техника для зимних маршрутов. Подбор снегоходов и Snowbike-комплектов с доставкой через Владивосток.</p>
+          <p>Snowbike-комплекты, модели снегоходов AODES и информация о заказе зимней техники.</p>
           <span className="site-footer__location">{site.location}</span>
         </div>
         <div className="site-footer__links">
@@ -30,10 +30,10 @@ export function SiteFooter() {
         <div className="site-footer__contact">
           <span className="eyebrow">Связаться</span>
           <a href={configuredTelegram ? telegramHref : "/#request"}>
-            <MessageCircle size={15} /> {configuredTelegram ? "Telegram" : "Оставить заявку"} <ArrowUpRight size={14} />
+            <MessageCircle size={15} /> {configuredTelegram ? "Telegram" : "Демонстрационная форма"} <ArrowUpRight size={14} />
           </a>
-          {site.phone.trim() ? <a href={`tel:${site.phone.replace(/[^+\d]/g, "")}`}><Phone size={15} /> {site.phone}</a> : <span><Phone size={15} /> Телефон — уточняется</span>}
-          {site.email.trim() ? <a href={`mailto:${site.email}`}><Mail size={15} /> {site.email}</a> : <span><Mail size={15} /> Email — уточняется</span>}
+          {site.phone.trim() && <a href={`tel:${site.phone.replace(/[^+\d]/g, "")}`}><Phone size={15} /> {site.phone}</a>}
+          {site.email.trim() && <a href={`mailto:${site.email}`}><Mail size={15} /> {site.email}</a>}
         </div>
       </div>
       <div className="site-footer__bottom page-shell">

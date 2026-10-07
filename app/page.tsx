@@ -7,7 +7,6 @@ import { FinalCTA } from "@/components/FinalCTA";
 import { HeroVideo } from "@/components/HeroVideo";
 import { ProductCard } from "@/components/ProductCard";
 import { SectionHeading } from "@/components/SectionHeading";
-import { SupplierPlaceholder } from "@/components/SupplierPlaceholder";
 import { TransformationStory } from "@/components/TransformationStory";
 import { snowmobiles } from "@/data/products";
 
@@ -43,7 +42,7 @@ export default function HomePage() {
           <div className="hero__copy">
             <span className="eyebrow"><span className="eyebrow__pip" />Техника для зимних маршрутов</span>
             <h1>Зима начинается<br />там, где заканчивается <em>дорога.</em></h1>
-            <p>Подберём Snowbike-комплект для эндуро или снегоход под заказ из Китая. Сначала сверим технику и условия — затем согласуем маршрут.</p>
+            <p>Snowbike-комплекты для эндуро и снегоходы AODES под заказ из Китая. Сравните варианты и проверьте условия до оформления.</p>
             <div className="hero__actions">
               <Link className="button button--primary" href="/catalog">Выбрать направление <ArrowRight size={17} /></Link>
               <Link className="button button--ghost" href="/snowbike"><span className="play-mark"><ArrowUpRight size={14} /></span>Открыть Snowbike</Link>
@@ -88,7 +87,7 @@ export default function HomePage() {
       </section>
 
       <section className="section page-shell">
-        <SectionHeading eyebrow="Подборка направлений" title="Снегоход под вашу задачу" description="Показываем категории для выбора. Марку, модель и характеристики подтвердим по актуальным предложениям поставщика." link={{ href: "/catalog", label: "Весь каталог" }} />
+        <SectionHeading eyebrow="Текущие предложения" title="Снегоход под вашу задачу" description="Три модели AODES Snowcross с опубликованными ценами. Перед заказом заново подтвердим наличие, параметры и итоговую стоимость." link={{ href: "/catalog", label: "Все модели" }} />
         <div className="horizontal-rail">
           {snowmobiles.map((item, index) => <ProductCard key={item.slug} item={item} index={index} compact />)}
         </div>
@@ -113,13 +112,12 @@ export default function HomePage() {
         <div className="page-shell">
           <div className="section-heading section-heading--split">
             <div className="section-heading__copy"><span className="eyebrow"><span className="eyebrow__pip" />Из зимних маршрутов</span><h2>Техника ближе,<br />чем кажется.</h2><p>Фото показывают зимние сценарии. Для заказа мы отдельно запросим у поставщика материалы выбранной техники.</p></div>
-            <Link className="text-link section-heading__link" href="/about">Как мы работаем <ArrowUpRight size={16} /></Link>
+            <Link className="text-link section-heading__link" href="/about">О проекте <ArrowUpRight size={16} /></Link>
           </div>
           <div className="winter-media-grid">
             <div className="winter-media-grid__main"><Image src="/media/snowmobile-tour.jpg" alt="Снежная равнина с зимними маршрутами" fill sizes="(max-width: 800px) 100vw, 55vw" /><span className="winter-media-grid__caption"><span>Зимний маршрут</span><span>01 / 03</span></span></div>
             <div className="winter-media-grid__side"><div><Image src="/media/snowmobile-action.jpg" alt="Снегоход на снежном рельефе" fill sizes="(max-width: 800px) 90vw, 25vw" /><span>Рельеф и скорость</span></div><div><Image src="/media/snowbike-ai-hero.jpg" alt="Snowbike в глубоком снегу" fill sizes="(max-width: 800px) 90vw, 25vw" /><span>Свобода вне трассы</span></div></div>
           </div>
-          <SupplierPlaceholder />
         </div>
       </section>
 
@@ -130,7 +128,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <FinalCTA title="Не ждите снега. Будьте готовы к нему." description="Расскажите, какой маршрут вы планируете. Поможем выбрать направление и обозначим, что нужно подтвердить у поставщика." />
+      <FinalCTA eyebrow="Заявки временно не принимаются" title="Выберите свой зимний маршрут." description="Сравните модели и условия поставки. Форма ниже только проверяет заполнение и не отправляет данные." />
     </>
   );
 }

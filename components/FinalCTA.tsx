@@ -19,13 +19,13 @@ export function FinalCTA({ eyebrow = "Начнём с вашего маршру�
         <span className="eyebrow"><span className="eyebrow__pip" />{eyebrow}</span>
         <h2>{title}</h2>
         <p>{description}</p>
-        <a className="final-cta__telegram" href={getTelegramHref()}>
+        <a className="final-cta__telegram" href={telegramReady ? getTelegramHref() : "#request-form"}>
           <span><MessageCircle size={17} /></span>
-          <span>{telegramReady ? "Продолжить в Telegram" : "Оставить запрос"}{telegramReady && <small>Откроется чат SnowEnduro</small>}</span>
+          <span>{telegramReady ? "Написать в Telegram" : "Демонстрационная форма"}<small>{telegramReady ? "Откроется чат SnowEnduro" : "Введённые данные не отправляются"}</small></span>
           <ArrowUpRight size={17} />
         </a>
       </div>
-      <div className="final-cta__form-wrap"><LeadForm topic={topic} mode={mode} compact /></div>
+      <div className="final-cta__form-wrap" id="request-form"><LeadForm topic={topic} mode={mode} compact /></div>
       <div className="final-cta__watermark" aria-hidden="true">SE</div>
     </section>
   );

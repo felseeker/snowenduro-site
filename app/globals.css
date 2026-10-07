@@ -427,7 +427,7 @@ p { color: var(--text-soft); }
 .compare-footnote { margin: 13px 0 0; font-size: 10px; }
 .catalog-empty { display: grid; min-height: 210px; place-content: center; justify-items: center; border: 1px dashed var(--line-strong); text-align: center; }
 .catalog-empty h3 { margin: 11px 0 15px; }
-.use-type-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.use-type-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .use-type-card { position: relative; display: flex; min-height: 250px; flex-direction: column; align-items: start; padding: 21px; border: 1px solid var(--line); border-radius: 5px; background: linear-gradient(155deg, #0d2233, #081724); transition: border-color .2s ease, transform .2s ease; }
 .use-type-card:hover { border-color: var(--ice); transform: translateY(-4px); }
 .use-type-card__index { position: absolute; top: 17px; right: 17px; color: #7891a4; font-size: 10px; }
@@ -596,6 +596,7 @@ p { color: var(--text-soft); }
 .about-motion-film__side p { margin-bottom: 18px; color: #9fb2c0; font-size: 12px; }
 .contact-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
 .contact-card { display: flex; min-height: 240px; flex-direction: column; align-items: start; padding: 19px; border: 1px solid var(--line); border-radius: 5px; background: #0a1a28; }
+.contact-card--empty { grid-column: 1 / -1; width: min(100%, 680px); justify-self: center; }
 .contact-card__icon { display: grid; width: 39px; height: 39px; place-items: center; margin-bottom: 21px; color: var(--ice); border: 1px solid var(--line-strong); border-radius: 4px; }
 .contact-card h3 { margin: 8px 0; font-size: 16px; }
 .contact-card p { min-height: 52px; margin-bottom: auto; font-size: 10px; }
@@ -778,8 +779,8 @@ p { color: var(--text-soft); }
   .section-heading h2 { margin-top: 10px; font-size: clamp(2rem, 10vw, 3rem); }
   .section-heading p { margin-top: 10px; font-size: 13px; }
   .section-heading__link { margin-bottom: 0; }
-  .section-heading--split { flex-direction: row; align-items: end; }
-  .section-heading--split .section-heading__link { align-self: end; }
+  .section-heading--split { align-items: start; flex-direction: column; }
+  .section-heading--split .section-heading__link { align-self: start; }
   .hero--home { min-height: max(690px, calc(100svh - var(--header-height))); }
   .hero-video { background-position: 61% center; }
   .hero-video__media { object-position: 61% center; }

@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
-import { ArrowRight, Check, ShieldCheck } from "lucide-react";
+import { ArrowRight, Info, ShieldCheck } from "lucide-react";
 
 export type LeadFormMode = "request" | "compatibility";
 
@@ -14,16 +14,17 @@ type LeadFormProps = {
 };
 
 export function LeadForm({ mode = "request", topic, compact = false, buttonLabel }: LeadFormProps) {
-  const [submitted, setSubmitted] = useState(false);
+  const [checked, setChecked] = useState(false);
   const compatibility = mode === "compatibility";
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitted(true);
+    setChecked(true);
   }
 
   return (
     <form className={`lead-form${compact ? " lead-form--compact" : ""}`} onSubmit={handleSubmit}>
+      <p className="form-privacy"><ShieldCheck size={14} /> Форма пока демонстрационная. Не вводите реальные контактные данные: они не отправляются и не сохраняются.</p>
       {compatibility && (
         <div className="form-row form-row--two">
           <label className="field">
@@ -59,16 +60,15 @@ export function LeadForm({ mode = "request", topic, compact = false, buttonLabel
       )}
       <label className="consent-check">
         <input type="checkbox" required />
-        <span>Согласен на обработку данных для ответа на запрос и ознакомлен с <Link href="/privacy">политикой конфиденциальности</Link>.</span>
+        <span>Понимаю, что это только проверка формы. <Link href="/privacy">Подробнее о данных</Link>.</span>
       </label>
       <button className="button button--primary form-submit" type="submit">
-        {buttonLabel ?? (compatibility ? "Проверить совместимость" : "Отправить запрос")} <ArrowRight size={17} />
+        {buttonLabel ?? (compatibility ? "Проверить поля" : "Проверить форму")} <ArrowRight size={17} />
       </button>
-      <p className="form-privacy"><ShieldCheck size={14} /> Сейчас форма работает в демо-режиме и не передаёт данные на сервер.</p>
-      {submitted && (
+      {checked && (
         <div className="form-result" role="status" aria-live="polite">
-          <span className="form-result__icon"><Check size={17} /></span>
-          <span><strong>Запрос проверен.</strong> Для реальной отправки подключите Telegram или обработчик формы в настройках сайта.</span>
+          <span className="form-result__icon"><Info size={17} /></span>
+          <span><strong>Это не отправка заявки.</strong> Поля проверены в браузере; данные никуда не переданы и не сохранены. Канал приёма пока не подключён.</span>
         </div>
       )}
     </form>

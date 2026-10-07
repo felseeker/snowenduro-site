@@ -7,13 +7,12 @@ import { FinalCTA } from "@/components/FinalCTA";
 import { LeadForm } from "@/components/LeadForm";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SnowbikeComparison } from "@/components/SnowbikeComparison";
-import { SupplierPlaceholder } from "@/components/SupplierPlaceholder";
 
 export const metadata: Metadata = {
   title: "Snowbike-комплекты для эндуро",
-  description: "Узнайте, как работает Snowbike-комплект с задним гусеничным модулем и передней лыжей, и отправьте мотоцикл на проверку совместимости.",
+  description: "Как работает Snowbike-комплект: задний гусеничный модуль и передняя лыжа. Совместимость и состав проверяются для конкретного мотоцикла.",
   alternates: { canonical: "/snowbike" },
-  openGraph: { title: "Snowbike-комплекты для эндуро", description: "Узнайте, как работает Snowbike-комплект с задним гусеничным модулем и передней лыжей, и отправьте мотоцикл на проверку совместимости.", url: "/snowbike" },
+  openGraph: { title: "Snowbike-комплекты для эндуро", description: "Как работает Snowbike-комплект: задний гусеничный модуль и передняя лыжа. Совместимость проверяется для конкретного мотоцикла.", url: "/snowbike" },
 };
 
 const conversionSteps = [
@@ -37,12 +36,12 @@ const useCases = [
 ];
 
 const faqs: FaqItem[] = [
-  { question: "Подойдёт ли Snowbike-комплект к моему эндуро?", answer: "Это зависит от марки, модели, года и конфигурации мотоцикла. Отправьте эти данные — мы запросим подтверждение совместимости у поставщика до оформления." },
+  { question: "Подойдёт ли Snowbike-комплект к моему эндуро?", answer: "Это зависит от марки, модели, года и конфигурации мотоцикла. Совместимость нужно подтвердить по конкретному комплекту до оформления. Форма на сайте пока только демонстрационная." },
   { question: "Что именно заменяется в мотоцикле?", answer: "В типовой схеме заднее колесо заменяет гусеничный модуль, а переднее — лыжный узел. Конкретное исполнение, крепления и состав комплекта зависят от поставщика." },
-  { question: "Сколько стоит комплект?", answer: "Цена зависит от доступного комплекта, совместимости и условий поставки. Назовём её после подтверждения поставщика." },
-  { question: "Можно ли установить комплект самостоятельно?", answer: "Требования к установке зависят от модели. Перед заказом запросим актуальную инструкцию и уточним рекомендуемый порядок монтажа." },
+  { question: "Сколько стоит комплект?", answer: "Цена зависит от комплекта, совместимости и условий поставки. До оформления нужно получить подтверждённую стоимость для конкретного эндуро." },
+  { question: "Можно ли установить комплект самостоятельно?", answer: "Требования к установке зависят от комплекта. До заказа нужно проверить инструкцию и рекомендуемый порядок монтажа." },
   { question: "Какой срок доставки?", answer: "Срок зависит от наличия, маршрута и оформления. Конкретную оценку можно дать после проверки модели и условий поставки." },
-  { question: "Можно ли запросить фото до оплаты?", answer: "Да. Перед согласованием заказа мы запрашиваем доступные фото, видео и описание именно выбранной комплектации." },
+  { question: "Можно ли запросить фото до оплаты?", answer: "Перед оплатой стоит запросить актуальные фото, видео и описание именно выбранной комплектации." },
 ];
 
 export default function SnowbikePage() {
@@ -96,8 +95,8 @@ export default function SnowbikePage() {
       <section className="section section--alternate" id="compatibility">
         <div className="page-shell">
           <div className="compatibility-panel">
-            <div className="compatibility-panel__copy"><span className="eyebrow"><span className="eyebrow__pip" />Проверка до заказа</span><h2>Покажите нам<br />ваш эндуро.</h2><p>Напишите марку, модель и год. Мы уточним у поставщика, есть ли совместимый комплект, и вернёмся с тем, что можно подтвердить.</p><div className="compatibility-panel__steps"><span><b>01</b>Данные мотоцикла</span><span><b>02</b>Запрос поставщику</span><span><b>03</b>Подтверждённый ответ</span></div><span className="compatibility-panel__caveat">Форма работает в демо-режиме: данные не передаются.</span></div>
-            <div className="compatibility-panel__form"><LeadForm mode="compatibility" buttonLabel="Запросить проверку" /></div>
+            <div className="compatibility-panel__copy"><span className="eyebrow"><span className="eyebrow__pip" />Проверка до заказа</span><h2>Совместимость<br />зависит от базы.</h2><p>Для подбора понадобятся марка, модель и год выпуска. Сейчас форму можно проверить, но она не отправляет данные и не запускает проверку комплекта.</p><div className="compatibility-panel__steps"><span><b>01</b>Марка и модель</span><span><b>02</b>Год выпуска</span><span><b>03</b>Проверка не подключена</span></div><span className="compatibility-panel__caveat">Не вводите реальные контакты: форма ничего не отправляет и не сохраняет.</span></div>
+            <div className="compatibility-panel__form"><LeadForm mode="compatibility" buttonLabel="Проверить поля" /></div>
           </div>
         </div>
       </section>
@@ -111,8 +110,8 @@ export default function SnowbikePage() {
 
       <section className="section section--alternate">
         <div className="page-shell">
-          <SectionHeading eyebrow="Без каталоговых обещаний" title="Материалы по реальному комплекту" description="Подтверждённые фото, видео и описание запрашиваем у поставщика уже под вашу модель эндуро." />
-          <div className="snowbike-media-feature"><div className="snowbike-media-feature__image"><Image src="/media/snowbike-ai-hero.jpg" alt="Snowbike на зимнем маршруте" fill sizes="(max-width: 800px) 100vw, 56vw" /><span className="snowbike-media-feature__label"><span className="eyebrow">Зимняя конфигурация</span><strong>Эндуро / снег / новый сезон</strong></span></div><SupplierPlaceholder compact /></div>
+          <SectionHeading eyebrow="Перед оформлением" title="Сначала — конкретный комплект" description="Совместимость, состав узлов, инструкция и цена зависят от модели мотоцикла и выбранной комплектации." />
+          <div className="snowbike-media-feature"><div className="snowbike-media-feature__image"><Image src="/media/snowbike-ai-hero.jpg" alt="Snowbike на зимнем маршруте" fill sizes="(max-width: 800px) 100vw, 56vw" /><span className="snowbike-media-feature__label"><span className="eyebrow">Зимняя конфигурация</span><strong>Эндуро / снег / новый сезон</strong></span></div><div className="supplier-placeholder supplier-placeholder--compact"><span className="eyebrow"><span className="eyebrow__pip" />Что понадобится</span><h3>Марка, модель и год эндуро.</h3><p>Эти данные нужны для проверки совместимости. Форма на сайте пока не передаёт контакты и не запускает проверку.</p><a className="text-link" href="#compatibility">К форме проверки <ArrowRight size={15} /></a></div></div>
         </div>
       </section>
 
@@ -120,7 +119,7 @@ export default function SnowbikePage() {
         <div className="faq-layout"><div><SectionHeading eyebrow="Частые вопросы" title="До первого снега" description="Собрали ответы о совместимости, составе комплекта и заказе." /><div className="faq-meta"><span className="status-dot" />Ответ зависит от модели мотоцикла</div></div><FaqList items={faqs} /></div>
       </section>
 
-      <FinalCTA eyebrow="Новый зимний маршрут начинается с базы" title="Проверим, что подойдёт именно вам." description="Оставьте данные мотоцикла — уточним, какие Snowbike-комплекты доступны и что входит в поставку." topic="snowbike" mode="compatibility" />
+      <FinalCTA eyebrow="Форма проверки пока отключена" title="Узнайте, какие данные нужны." description="Можно проверить заполнение формы совместимости. Данные не отправляются, поэтому проверка модели сейчас не выполняется." topic="snowbike" mode="compatibility" />
     </>
   );
 }
