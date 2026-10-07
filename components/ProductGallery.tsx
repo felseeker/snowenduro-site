@@ -33,7 +33,7 @@ export function ProductGallery({ images }: { images: GalleryImage[] }) {
           </button>
         ))}
       </div>
-      <p className="product-gallery__caption">Фото показывают зимние сценарии. Изображения и комплект конкретной модели поставщик подтвердит до заказа.</p>
+      <p className="product-gallery__caption">Изображения модели. Фактический цвет и комплектацию конкретного предложения следует подтвердить до заказа.</p>
     </div>
   );
 }
