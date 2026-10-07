@@ -6,7 +6,7 @@ import { FaqList, type FaqItem } from "@/components/FaqList";
 import { FinalCTA } from "@/components/FinalCTA";
 import { LeadForm } from "@/components/LeadForm";
 import { SectionHeading } from "@/components/SectionHeading";
-import { SnowbikeDiagram } from "@/components/SnowbikeDiagram";
+import { SnowbikeComparison } from "@/components/SnowbikeComparison";
 import { SupplierPlaceholder } from "@/components/SupplierPlaceholder";
 
 export const metadata: Metadata = {
@@ -70,14 +70,16 @@ export default function SnowbikePage() {
 
       <section className="section section--alternate" id="how-it-works">
         <div className="page-shell">
-          <SectionHeading eyebrow="Техническая схема" title="Гусеница сзади. Лыжа спереди." description="Схема показывает принцип замены двух колёс. Реальные размеры, крепления и состав зависят от комплекта и мотоцикла." />
+          <SectionHeading eyebrow="До / после" title="Вместо колёс — лыжа и гусеница." description="Слева эндуро на колёсах, справа — зимняя конфигурация. Переднее колесо заменяется лыжным узлом, заднее — гусеничным модулем. Точное исполнение подтверждается под модель." />
           <div className="snowbike-explainer">
-            <div className="snowbike-explainer__diagram"><SnowbikeDiagram stage={3} /></div>
+            <div className="snowbike-explainer__diagram">
+              <SnowbikeComparison />
+            </div>
             <div className="snowbike-explainer__side">
-              <span className="eyebrow">Главные узлы</span>
-              <h3>Привычная основа.<br /><em>Другой контакт со снегом.</em></h3>
-              <p>Гусеничный модуль и лыжный узел подбираются как система. До заказа сверяем совместимость и детали установки.</p>
-              <div className="snowbike-parts-list"><span><b>01</b><span>Заднее колесо<small>заменяется гусеничным модулем</small></span></span><span><b>02</b><span>Переднее колесо<small>заменяется лыжным узлом</small></span></span><span><b>03</b><span>Крепления<small>подтверждаются под модель</small></span></span></div>
+              <span className="eyebrow">Два понятных изменения</span>
+              <h3>Лыжа спереди.<br /><em>Гусеница сзади.</em></h3>
+              <p>Сохраняется основа эндуро. Меняются два узла, которые соприкасаются со снегом.</p>
+              <div className="snowbike-parts-list"><span><b>01</b><span>Переднее колесо<small>заменяется одной лыжей</small></span></span><span><b>02</b><span>Заднее колесо<small>заменяется гусеничным модулем</small></span></span><span><b>03</b><span>Крепления<small>подтверждаются под модель</small></span></span></div>
               <a className="text-link" href="#compatibility">Проверить свой мотоцикл <ArrowUpRight size={15} /></a>
             </div>
           </div>

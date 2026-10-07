@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, Box, ClipboardCheck, FileCheck2, MapPin, ShieldCheck, Snowflake, Truck } from "lucide-react";
+import { ArrowRight, BadgeCheck, Box, ClipboardCheck, FileCheck2, MapPin, ShieldCheck, Snowflake, Star, Truck } from "lucide-react";
 import { DeliveryRoute } from "@/components/DeliveryRoute";
 import { FaqList, type FaqItem } from "@/components/FaqList";
 import { FinalCTA } from "@/components/FinalCTA";
@@ -23,6 +23,7 @@ const orderSteps = [
   { no: "05", icon: <Box size={18} />, title: "Готовим поставку", text: "Уточняем упаковку, комплект документов и последовательность отправки." },
   { no: "06", icon: <Truck size={18} />, title: "Организуем маршрут", text: "Планируем доставку через Уссурийск и Владивосток с учётом маршрута и города." },
   { no: "07", icon: <MapPin size={18} />, title: "Передаём заказ", text: "Согласуем получение во Владивостоке или отправку в ваш регион." },
+  { no: "08", icon: <Star size={18} />, title: "Остаёмся на связи", text: "После получения можно оставить отзыв и задать вопросы по заказу. Обратная связь поможет нам улучшать сервис.", optional: true },
 ];
 
 const factors = [
@@ -64,9 +65,9 @@ export default function DeliveryPage() {
 
       <section className="section section--alternate">
         <div className="page-shell">
-          <SectionHeading eyebrow="Семь шагов заказа" title="От первого сообщения до получения" description="Каждый следующий этап начинается после того, как подтверждены данные предыдущего." />
+          <SectionHeading eyebrow="Восемь шагов заказа" title="От первого сообщения до получения" description="От первого запроса до обратной связи после получения. Каждый этап начинается после подтверждения предыдущего." />
           <div className="order-steps-grid">
-            {orderSteps.map((step) => <article className="order-step" key={step.no}><span className="order-step__top"><b>{step.no}</b><span>{step.icon}</span></span><span className="order-step__line" /><h3>{step.title}</h3><p>{step.text}</p></article>)}
+            {orderSteps.map((step) => <article className="order-step" key={step.no}><span className="order-step__top"><b>{step.no}</b><span>{step.icon}</span></span><span className="order-step__line" /><h3>{step.title}</h3>{step.optional && <span className="order-step__optional">по желанию</span>}<p>{step.text}</p></article>)}
           </div>
         </div>
       </section>

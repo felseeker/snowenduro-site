@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, BadgeCheck, FileCheck2, MapPin, MessageCircle, PackageSearch, ShieldCheck, Truck } from "lucide-react";
 import { FinalCTA } from "@/components/FinalCTA";
+import { HeroVideo } from "@/components/HeroVideo";
+import { RouteMap } from "@/components/RouteMap";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SupplierPlaceholder } from "@/components/SupplierPlaceholder";
 import { formatContact, getTelegramHref, site } from "@/data/site";
@@ -58,6 +60,26 @@ export default function AboutPage() {
         <SupplierPlaceholder />
       </section>
 
+      <section className="section page-shell">
+        <div className="about-motion-film">
+          <div className="about-motion-film__visual">
+            <HeroVideo />
+            <span className="about-motion-film__veil" />
+            <div className="about-motion-film__copy">
+              <span className="eyebrow"><span className="eyebrow__pip" />Сезон в движении</span>
+              <h2>Зима не ставит<br /><em>маршрут на паузу.</em></h2>
+            </div>
+            <span className="about-motion-film__meta">ЗИМНИЕ МАРШРУТЫ / SNOWENDURO</span>
+          </div>
+          <div className="about-motion-film__side">
+            <span className="eyebrow">Сначала — направление</span>
+            <h3>Snowbike или снегоход — под ваш способ ехать.</h3>
+            <p>Расскажите о технике и маршруте. Проверим доступные варианты и условия у поставщика.</p>
+            <Link className="text-link" href="/delivery">Посмотреть путь заказа <ArrowRight size={15} /></Link>
+          </div>
+        </div>
+      </section>
+
       <section className="section section--alternate" id="contacts">
         <div className="page-shell">
           <SectionHeading eyebrow="Контакты" title="Давайте обсудим маршрут" description="Связаться можно удобным способом. Контактные данные добавим перед публикацией." />
@@ -67,7 +89,7 @@ export default function AboutPage() {
             <article className="contact-card"><span className="contact-card__icon"><MessageCircle size={19} /></span><span className="eyebrow">Телефон</span><h3>{formatContact(site.phone)}</h3><p>Подключим номер, по которому можно обсудить подбор и доставку.</p></article>
             <article className="contact-card"><span className="contact-card__icon"><FileCheck2 size={19} /></span><span className="eyebrow">Электронная почта</span><h3>{formatContact(site.email)}</h3><p>Для коммерческих предложений и вопросов по документам.</p></article>
           </div>
-          <div className="contact-route-card"><div className="contact-route-card__map"><div className="route-map-lines" /><span className="route-map-node route-map-node--china">Китай</span><span className="route-map-node route-map-node--ussuriysk">Уссурийск</span><span className="route-map-node route-map-node--vladivostok">Владивосток</span></div><div className="contact-route-card__copy"><span className="eyebrow">Восточные ворота</span><h3>Китай — Уссурийск — Владивосток</h3><p>География заказа: маршрут и точка передачи подтверждаются после выбора модели.</p><Link className="text-link" href="/delivery">Узнать о доставке <ArrowRight size={15} /></Link></div></div>
+          <div className="contact-route-card"><RouteMap /><div className="contact-route-card__copy"><span className="eyebrow">Восточные ворота</span><h3>Китай — Уссурийск — Владивосток</h3><p>География заказа: маршрут и точка передачи подтверждаются после выбора модели.</p><Link className="text-link" href="/delivery">Узнать о доставке <ArrowRight size={15} /></Link></div></div>
         </div>
       </section>
 
