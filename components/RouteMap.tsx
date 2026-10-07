@@ -33,7 +33,7 @@ export function RouteMap() {
         <path d="M66 170c105 27 187 23 285 54s159 80 207 137" fill="none" stroke="#c6e4f2" strokeOpacity=".1" strokeWidth="1" />
         <text x="373" y="86" className="contact-route-map__region">РОССИЯ · ПРИМОРЬЕ</text>
         <text x="118" y="365" className="contact-route-map__region contact-route-map__region--china">КИТАЙ</text>
-        <text x="685" y="235" className="contact-route-map__sea-label">ЯПОНСКОЕ МОРЕ</text>
+        <text x="610" y="235" className="contact-route-map__sea-label">ЯПОНСКОЕ МОРЕ</text>
 
         <path d="M255 294c81-21 181-110 285-131 27 44 28 93 51 150" className="contact-route-map__route-shadow" />
         <path d="M255 294c81-21 181-110 285-131 27 44 28 93 51 150" className="contact-route-map__route" />
