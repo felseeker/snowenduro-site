@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Откройте `http://localhost:3000`. Для production-сборки выполните `npm run build`, затем `npm start`.
+Откройте `http://localhost:3000`. Production-сборка создаётся в `out/` командой `npm run build`.
 
 ## Страницы
 
@@ -29,6 +29,11 @@ npm run dev
 - `data/site.ts` — название сайта, домен и направление поставки.
 - `NEXT_PUBLIC_TELEGRAM_URL`, `NEXT_PUBLIC_PHONE`, `NEXT_PUBLIC_CONTACT_EMAIL` — способы связи в `.env.local`.
 - `public/media/` — фотографии, видео и другие медиафайлы.
+- `.github/workflows/deploy.yml` — автоматическая сборка и публикация GitHub Pages.
+
+## Публикация
+
+Сайт собирается как статический экспорт и публикуется в GitHub Pages при изменениях в `main`. Репозиторий должен быть публичным, а в `Settings → Pages` источником должен быть выбран GitHub Actions. Домен `snowenduro.ru` привязывается там же; веб-записи DNS управляются в панели REG.RU. Первый запуск можно выполнить вручную во вкладке Actions.
 
 Цены и доступность на странице соответствуют опубликованным предложениям и требуют повторной проверки перед оформлением. Сравните характеристики и подтвердите комплектацию, документы, итоговую стоимость и маршрут до оплаты.
 
@@ -42,8 +47,7 @@ npm run dev
 - `components/` — навигация, форма-заглушка, каталог и визуальные блоки.
 - `data/` — сведения сайта и данные снегоходов.
 - `public/media/` — локальные фото и видео.
-- `stitch-export/` — исходные макеты Google Stitch.
 
 ## Стек
 
-Next.js App Router, React, TypeScript, CSS и Lucide. Интерфейс учитывает мобильные экраны и `prefers-reduced-motion`; изображения используют `next/image`, видео загружается по мере необходимости.
+Next.js App Router, React, TypeScript, CSS и Lucide. GitHub Actions собирает статический сайт в `out/` и публикует его в GitHub Pages. Интерфейс учитывает мобильные экраны и `prefers-reduced-motion`; изображения используют `next/image`, видео загружается по мере необходимости.
