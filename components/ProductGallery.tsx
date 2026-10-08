@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, Expand } from "lucide-react";
 
-type GalleryImage = { src: string; alt: string; label: string; treatment?: "cutout" };
+type GalleryImage = { src: string; alt: string; label: string; treatment?: "cutout" | "scene" };
 
 export function ProductGallery({ images }: { images: GalleryImage[] }) {
   const [active, setActive] = useState(0);
@@ -16,8 +16,9 @@ export function ProductGallery({ images }: { images: GalleryImage[] }) {
 
   return (
     <div className="product-gallery">
-      <div className={`product-gallery__main${current.treatment === "cutout" ? " product-gallery__main--cutout" : ""}`}>
-        <Image src={current.src} alt={current.alt} fill loading="eager" sizes="(max-width: 900px) 100vw, 62vw" />
+      <div className={`product-gallery__main${current.treatment === "cutout" ? " product-gallery__main--cutout" : ""}${current.treatment === "scene" ? " product-gallery__main--scene" : ""}`}>
+        {current.treatment === "scene" && <Image className="product-gallery__ambient" src={current.src} alt="" aria-hidden="true" fill sizes="(max-width: 900px) 100vw, 62vw" />}
+        <Image className={current.treatment === "scene" ? "product-gallery__scene-image" : undefined} src={current.src} alt={current.alt} fill loading="eager" sizes="(max-width: 900px) 100vw, 62vw" />
         <span className="product-gallery__label">{current.label}</span>
         <div className="product-gallery__controls">
           <button type="button" onClick={() => step(-1)} aria-label="Предыдущее фото"><ArrowLeft size={17} /></button>

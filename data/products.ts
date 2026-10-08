@@ -12,8 +12,8 @@ export type Product = {
   summary: string;
   image: string;
   imageAlt: string;
-  imageTreatment?: "cutout";
-  gallery: { src: string; alt: string; label: string; treatment?: "cutout" }[];
+  imageTreatment?: "cutout" | "scene";
+  gallery: { src: string; alt: string; label: string; treatment?: "cutout" | "scene" }[];
   tags: string[];
   price: number | null;
   useCase: string;
@@ -26,11 +26,11 @@ export type Product = {
 
 export const priceNote = "Стоимость предварительная. Точную цену, комплектацию и сроки поставки уточняйте у менеджеров.";
 
-const makeGallery = (name: string, image: string, imageAlt: string, treatment?: "cutout") => [
+const makeGallery = (name: string, image: string, imageAlt: string, treatment?: "cutout" | "scene") => [
   { src: image, alt: imageAlt, label: `${name} / зимний фон`, treatment },
 ];
 
-const galleryPhoto = (file: string, alt: string, label: string, treatment?: "cutout") => ({
+const galleryPhoto = (file: string, alt: string, label: string, treatment?: "cutout" | "scene") => ({
   src: `/media/products/gallery/${file}`,
   alt,
   label,
@@ -54,9 +54,6 @@ const additionalPhotos: Partial<Record<string, Product["gallery"]>> = {
   "woideal-wd300": [
     galleryPhoto("woideal-wd300-scene.webp", "WOIDEAL WD300 в зимнем лесу", "На снегу"),
     galleryPhoto("woideal-wd300-cockpit.webp", "Посадка и органы управления WOIDEAL WD300", "Кокпит и управление"),
-  ],
-  "woideal-wd380": [
-    galleryPhoto("woideal-wd380-winter.webp", "WOIDEAL WD380 на зимнем маршруте", "На снегу"),
   ],
   "taomotor-snowfox-ii": [
     galleryPhoto("taomotor-snowfox-ii-winter.webp", "TaoMotor Snowfox II на зимнем маршруте", "На снегу"),
@@ -82,10 +79,10 @@ const additionalPhotos: Partial<Record<string, Product["gallery"]>> = {
     galleryPhoto("aodes-snowcross-800-wt-04.webp", "AODES Snowcross 800 WT в движении", "В движении"),
   ],
   "aodes-snowcross-1000-wt": [
-    galleryPhoto("aodes-snowcross-1000-wt-01.webp", "AODES Snowcross 1000 WT, вид сбоку", "Общий вид", "cutout"),
-    galleryPhoto("aodes-snowcross-1000-wt-02.webp", "Передняя часть AODES Snowcross 1000 WT", "Передняя часть"),
-    galleryPhoto("aodes-snowcross-1000-wt-03.webp", "Руль и панель AODES Snowcross 1000 WT", "Кокпит и управление"),
-    galleryPhoto("aodes-snowcross-1000-wt-04.webp", "Панель приборов AODES Snowcross 1000 WT", "Панель приборов"),
+    galleryPhoto("aodes-snowcross-1000-wt-angle.webp", "AODES Snowcross 1000 WT в трёхчетвертном ракурсе", "Трёхчетвертной ракурс", "scene"),
+    galleryPhoto("aodes-snowcross-1000-wt-02-scene.webp", "Передняя часть AODES Snowcross 1000 WT", "Передняя часть", "scene"),
+    galleryPhoto("aodes-snowcross-1000-wt-03-scene.webp", "Руль и панель AODES Snowcross 1000 WT", "Кокпит и управление", "scene"),
+    galleryPhoto("aodes-snowcross-1000-wt-04-scene.webp", "Панель приборов AODES Snowcross 1000 WT", "Панель приборов", "scene"),
   ],
   "aodes-snowcross-1000-swt": [
     galleryPhoto("aodes-snowcross-1000-swt-01.webp", "AODES Snowcross 1000 SWT, вид сбоку", "Общий вид", "cutout"),
@@ -228,7 +225,7 @@ export const snowmobiles: Product[] = [
   }),
   product({
     slug: "aodes-snowcross-1000-wt", name: "AODES Snowcross 1000 WT", category: "snowmobile", brand: "AODES", eyebrow: "AODES / Snowcross 1000 WT", purpose: "утилитарный", summary: "Плюсы: V-twin 976 см³, около 87 л.с., два места и гусеница шириной 500 мм. Ограничение: по плавучести в глубоком снегу уступает широкой версии SWT.",
-    image: "/media/products/aodes-snowcross-1000-wt.png", imageAlt: "Снегоход AODES Snowcross WT из глобальной линейки производителя", imageTreatment: "cutout",
+    image: "/media/products/gallery/aodes-snowcross-1000-wt-feature.webp", imageAlt: "AODES Snowcross 1000 WT на заснеженном маршруте", imageTreatment: "scene",
     tags: ["976 см³", "WT / 508 мм", "2 места"], price: null, useCase: "Утилитарный",
     engine: "976 см³, V-twin, 4-тактный", horsepower: "87 л.с.", track: "3923 × 508 × 38 мм", seats: "2",
     specs: [{ label: "Двигатель", value: "976 см³, V-twin, 4-тактный" }, { label: "Мощность", value: "87 л.с." }, { label: "Гусеница", value: "3923 × 508 × 38 мм" }, { label: "Посадочных мест", value: "2" }],

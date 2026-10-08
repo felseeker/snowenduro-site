@@ -77,7 +77,11 @@ export default async function SnowmobileProductPage({ params }: ProductPageProps
 
       <section className="section section--alternate">
         <div className="page-shell product-info-grid">
-          <div className={`product-story-image${item.imageTreatment === "cutout" ? " product-story-image--cutout" : ""}`}><Image src={item.image} alt={item.imageAlt} fill sizes="(max-width: 800px) 100vw, 50vw" /><div><span className="eyebrow">{item.eyebrow}</span><h2>{item.useCase === "Глубокий снег" ? <>Для рыхлого<br />зимнего снега.</> : <>Для смешанных<br />зимних маршрутов.</>}</h2></div></div>
+          <div className={`product-story-image${item.imageTreatment === "cutout" ? " product-story-image--cutout" : ""}${item.imageTreatment === "scene" ? " product-story-image--scene" : ""}`}>
+            {item.imageTreatment === "scene" && <Image className="product-story-image__ambient" src={item.image} alt="" aria-hidden="true" fill sizes="(max-width: 800px) 100vw, 50vw" />}
+            <Image className={item.imageTreatment === "scene" ? "product-story-image__scene" : undefined} src={item.image} alt={item.imageAlt} fill sizes="(max-width: 800px) 100vw, 50vw" />
+            <div><span className="eyebrow">{item.eyebrow}</span><h2>{item.useCase === "Глубокий снег" ? <>Для рыхлого<br />зимнего снега.</> : <>Для смешанных<br />зимних маршрутов.</>}</h2></div>
+          </div>
             <div className="product-info-copy"><span className="eyebrow">Плюсы и особенности</span><h2>Характер<br /><em>{item.name}.</em></h2><p>{item.summary}</p><Link className="text-link" href={categoryHref}>Другие модели категории <ArrowUpRight size={15} /></Link></div>
         </div>
       </section>

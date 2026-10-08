@@ -474,6 +474,9 @@ p { color: var(--text-soft); }
 .product-gallery__main { position: relative; height: min(600px, 54vw); min-height: 390px; overflow: hidden; border: 1px solid var(--line); border-radius: 7px; background: #102438; }
 .product-gallery__main--cutout { background: radial-gradient(ellipse at 52% 78%, rgba(224, 241, 251, .38), transparent 29%), linear-gradient(180deg, #28475e 0%, #11283a 57%, #d7e4eb 58%, #8197a5 100%); }
 .product-gallery__main--cutout > img { object-fit: contain; padding: 4% 8% 7%; }
+.product-gallery__main--scene { background: #071522; }
+.product-gallery__main--scene > .product-gallery__ambient { z-index: 0; object-fit: cover; filter: blur(18px) brightness(.56); transform: scale(1.08); }
+.product-gallery__main--scene > .product-gallery__scene-image { z-index: 1; object-fit: contain; padding: 2%; filter: drop-shadow(0 16px 24px rgba(1, 8, 14, .45)); }
 .product-gallery__main > img { object-fit: cover; object-position: center 52%; }
 .product-gallery__main::after { position: absolute; inset: 45% 0 0; background: linear-gradient(0deg, rgba(3, 10, 17, .63), transparent); content: ""; pointer-events: none; }
 .product-gallery__label { position: absolute; z-index: 1; top: 16px; left: 16px; padding: 7px 10px; color: #eaf6ff; border: 1px solid rgba(255, 255, 255, .22); border-radius: 3px; background: rgba(4, 14, 23, .55); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; backdrop-filter: blur(9px); }
@@ -510,6 +513,9 @@ p { color: var(--text-soft); }
 .product-story-image { position: relative; min-height: 450px; overflow: hidden; border: 1px solid var(--line); border-radius: 6px; background: #0b2030; }
 .product-story-image--cutout { background: radial-gradient(ellipse at 52% 78%, rgba(224, 241, 251, .38), transparent 29%), linear-gradient(180deg, #28475e 0%, #11283a 57%, #d7e4eb 58%, #8197a5 100%); }
 .product-story-image--cutout > img { object-fit: contain; padding: 4% 7% 11%; }
+.product-story-image--scene { background: #071522; }
+.product-story-image--scene > .product-story-image__ambient { z-index: 0; object-fit: cover; filter: blur(18px) brightness(.56); transform: scale(1.08); }
+.product-story-image--scene > .product-story-image__scene { z-index: 1; object-fit: contain; padding: 2%; filter: drop-shadow(0 16px 24px rgba(1, 8, 14, .45)); }
 .product-story-image > img { object-fit: cover; }
 .product-story-image::after { position: absolute; inset: 35% 0 0; background: linear-gradient(0deg, rgba(3, 11, 18, .8), transparent); content: ""; }
 .product-story-image > div { position: absolute; z-index: 1; right: 22px; bottom: 21px; left: 22px; }
