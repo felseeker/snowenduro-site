@@ -26,7 +26,7 @@ export type Product = {
   specs: ProductSpec[];
 };
 
-export const priceNote = "Стоимость предварительная. Точную цену, комплектацию и сроки поставки уточняйте у менеджеров. Это рыночный ориентир, а не подтверждённое коммерческое предложение SnowEnduro.";
+export const priceNote = "Стоимость предварительная. Точную цену, комплектацию и сроки поставки уточняйте у менеджеров.";
 
 const makeGallery = (name: string, image: string, imageAlt: string, treatment?: "cutout") => [
   { src: image, alt: imageAlt, label: `${name} / зимний фон`, treatment },

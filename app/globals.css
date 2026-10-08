@@ -201,11 +201,11 @@ p { color: var(--text-soft); }
 .product-card__tags .product-tag--metric small { color: #b8e5ff; font-size: 9px; font-weight: 650; letter-spacing: .025em; line-height: 1; text-transform: uppercase; }
 .product-card__tags .product-tag:hover { transform: translateY(-3px); border-color: rgba(144, 215, 255, .68); box-shadow: inset 0 1px 0 rgba(236, 249, 255, .2), 0 13px 22px rgba(0, 0, 0, .38), 0 0 24px rgba(72, 182, 250, .15); }
 .product-card__bottom { padding-top: 13px; border-top: 1px solid rgba(130, 205, 255, .12); }
-.product-card__bottom { align-items: end; }
-.product-card__price { display: grid; gap: 5px; min-width: 0; }
-.product-card__price small { max-width: 260px; color: #8297a7; font-size: 8px; line-height: 1.45; }
-.price-label { color: var(--white); font-size: 10px; font-weight: 700; line-height: 1.35; }
-.product-card__bottom .text-link { font-size: 11px; }
+.product-card__bottom { align-items: flex-start; }
+.product-card__price { display: grid; flex: 1 1 auto; gap: 6px; min-width: 0; }
+.product-card__price small { max-width: 300px; min-width: 0; color: #b3c5d2; font-size: 10px; line-height: 1.5; }
+.price-label { color: #f5fbff; font-size: clamp(12px, .95vw, 14px); font-weight: 750; line-height: 1.4; letter-spacing: -.015em; }
+.product-card__bottom .text-link { flex: 0 0 auto; padding-top: 2px; font-size: 11px; }
 .product-card--compact .product-card__image { height: 210px; }
 .product-card--compact .product-card__body { padding: 17px; }
 .product-card--compact p { min-height: 75px; }
@@ -489,7 +489,7 @@ p { color: var(--text-soft); }
 .product-summary__price { display: flex; flex-direction: column; padding: 18px 0; border-block: 1px solid var(--line); }
 .product-summary__price span { color: #93a8b7; font-size: 10px; }
 .product-summary__price strong { margin-top: 5px; color: var(--white); font-family: var(--font-manrope), sans-serif; font-size: 30px; line-height: 1.15; letter-spacing: -.04em; }
-.product-summary__price small { margin-top: 5px; color: #8297a7; font-size: 10px; }
+.product-summary__price small { margin-top: 7px; color: #b3c5d2; font-size: 11px; line-height: 1.55; }
 .product-summary__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 .product-summary__benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 18px; }
 .product-summary__benefits span { display: flex; flex-direction: column; gap: 8px; color: #9eb2c1; font-size: 9px; }
