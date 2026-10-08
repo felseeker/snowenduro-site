@@ -3,6 +3,7 @@ import { Hanken_Grotesk, Manrope } from "next/font/google";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Snowfall } from "@/components/Snowfall";
+import { YandexMetrika } from "@/components/YandexMetrika";
 import { site } from "@/data/site";
 import "./globals.css";
 
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ru" className={`${manrope.variable} ${hanken.variable}`} data-scroll-behavior="smooth">
       <body>
+        <YandexMetrika />
         <Snowfall />
         <SiteHeader />
         <main id="main-content" tabIndex={-1}>{children}</main>
