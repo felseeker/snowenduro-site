@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   },
   description: site.description,
   applicationName: site.name,
+  verification: { yandex: "4be95efe440228cf" },
   icons: { icon: "/favicon.svg" },
   manifest: "/manifest.webmanifest",
   openGraph: {
