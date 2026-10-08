@@ -24,7 +24,7 @@ export function ProductGallery({ images }: { images: GalleryImage[] }) {
           <span>{String(active + 1).padStart(2, "0")} <i>/</i> {String(images.length).padStart(2, "0")}</span>
           <button type="button" onClick={() => step(1)} aria-label="Следующее фото"><ArrowRight size={17} /></button>
         </div>
-        <span className="product-gallery__zoom"><Expand size={14} /> Зимний сценарий</span>
+        <span className="product-gallery__zoom"><Expand size={14} /> Детали модели</span>
       </div>
       <div className="product-gallery__thumbs" role="tablist" aria-label="Фотографии снегохода">
         {images.map((image, index) => (
@@ -33,7 +33,7 @@ export function ProductGallery({ images }: { images: GalleryImage[] }) {
           </button>
         ))}
       </div>
-      <p className="product-gallery__caption">Изображения модели. Фактический цвет и комплектацию конкретного предложения следует подтвердить до заказа.</p>
+      <p className="product-gallery__caption">Ракурсы и детали модели</p>
     </div>
   );
 }

@@ -87,7 +87,7 @@ export default function HomePage() {
       </section>
 
       <section className="section page-shell">
-        <SectionHeading eyebrow="Подборка моделей" title="Снегоход под вашу задачу" description="В каталоге — компактные и полноразмерные модели WOIDEAL, TaoMotor и AODES, а также варианты с пробегом. Перед заказом проверим наличие, параметры и итоговую стоимость." link={{ href: "/catalog", label: "Все модели" }} />
+        <SectionHeading eyebrow="Подборка моделей" title="Снегоход под вашу задачу" description="В каталоге — компактные модели для коротких поездок и полноразмерная техника для маршрутов, рыхлого снега и хозяйственных задач." link={{ href: "/catalog", label: "Все модели" }} />
         <div className="horizontal-rail">
           {snowmobiles.slice(0, 4).map((item, index) => <ProductCard key={item.slug} item={item} index={index} compact />)}
         </div>

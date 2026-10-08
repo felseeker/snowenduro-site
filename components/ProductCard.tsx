@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, MoveUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { displayPrice, priceNote, snowbikeKits, snowmobiles, type Product } from "@/data/products";
+import { ProductCardMedia } from "@/components/ProductCardMedia";
 
 export function ProductCard({ item, index = 0, compact = false }: { item: Product; index?: number; compact?: boolean }) {
   const total = item.category === "snowbike" ? snowbikeKits.length : snowmobiles.length;
@@ -15,13 +15,9 @@ export function ProductCard({ item, index = 0, compact = false }: { item: Produc
   };
   return (
     <article className={`product-card${compact ? " product-card--compact" : ""}`}>
-      <Link className={`product-card__image${item.imageTreatment === "cutout" ? " product-card__image--cutout" : ""}`} href={`/catalog/${item.slug}`} aria-label={`Подробнее: ${item.name}`}>
-        <Image src={item.image} alt={item.imageAlt} fill sizes={compact ? "(max-width: 700px) 72vw, 32vw" : "(max-width: 700px) 86vw, (max-width: 1100px) 45vw, 24vw"} />
-        <span className="image-index">{String(index + 1).padStart(2, "0")} <span>/ {String(total).padStart(2, "0")}</span></span>
-        <span className="product-card__image-action"><MoveUpRight size={16} /></span>
-      </Link>
+      <ProductCardMedia item={item} index={index} total={total} compact={compact} />
       <div className="product-card__body">
-        <div className="product-card__meta"><span>{item.eyebrow}</span><span className="status-dot">{item.availability}</span></div>
+        <div className="product-card__meta"><span>{item.eyebrow}</span><span className="product-card__profile">{item.purpose}</span></div>
         <h3><Link href={`/catalog/${item.slug}`}>{item.name}</Link></h3>
         <p>{item.summary}</p>
         <div className="product-card__tags">{item.tags.map(renderTag)}</div>

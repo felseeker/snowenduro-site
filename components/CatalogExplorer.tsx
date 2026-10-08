@@ -9,7 +9,7 @@ const filters = [
   { value: "all", label: "Все модели" },
   { value: "priced", label: "Есть ориентир цены" },
   { value: "request", label: "Цена по запросу" },
-  { value: "used", label: "Остатки / б/у" },
+  { value: "utility", label: "Утилитарные" },
 ];
 
 const comparisonRows: { label: string; value: (item: Product) => string }[] = [
@@ -18,9 +18,7 @@ const comparisonRows: { label: string; value: (item: Product) => string }[] = [
   { label: "Мощность", value: (item) => item.horsepower },
   { label: "Гусеница", value: (item) => item.track },
   { label: "Посадочных мест", value: (item) => item.seats },
-  { label: "Предложение", value: (item) => item.availability },
   { label: "Цена", value: (item) => displayPrice(item.price) },
-  { label: "Формат поставки", value: (item) => item.availability },
 ];
 
 function modelWord(count: number) {
@@ -42,7 +40,7 @@ export function CatalogExplorer() {
     const matchesFilter = filter === "all"
       || (filter === "priced" && item.price !== null)
       || (filter === "request" && item.price === null)
-      || (filter === "used" && item.offerType === "new-or-used");
+      || (filter === "utility" && item.purpose.toLocaleLowerCase("ru-RU").includes("утилитар"));
     const normalizedQuery = query.trim().toLocaleLowerCase("ru-RU");
     const searchable = `${item.name} ${item.eyebrow} ${item.summary} ${item.tags.join(" ")} ${item.purpose}`.toLocaleLowerCase("ru-RU");
     return matchesFilter && (!normalizedQuery || searchable.includes(normalizedQuery));
@@ -96,7 +94,7 @@ export function CatalogExplorer() {
       {selectedItems.length > 0 && (
         <section className="compare-panel" aria-labelledby="compare-title">
           <div className="compare-panel__heading">
-            <div><span className="eyebrow">Сравнение</span><h3 id="compare-title">Параметры и статус поставки</h3></div>
+            <div><span className="eyebrow">Сравнение</span><h3 id="compare-title">Сравнение характеристик</h3></div>
             <button type="button" className="text-link" onClick={() => setSelected([])}>Очистить <X size={15} /></button>
           </div>
           <div className="compare-table-wrap">
@@ -105,7 +103,7 @@ export function CatalogExplorer() {
               <tbody>{comparisonRows.map((row) => <tr key={row.label}><th scope="row">{row.label}</th>{selectedItems.map((item) => <td key={`${item.slug}-${row.label}`}>{row.value(item)}</td>)}</tr>)}</tbody>
             </table>
           </div>
-          <p className="compare-footnote">Цена и наличие — по текущему предложению; проверим их повторно до оформления.</p>
+          <p className="compare-footnote">Сопоставьте двигатель, мощность, гусеницу и посадку под ваш сценарий.</p>
         </section>
       )}
     </>

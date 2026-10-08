@@ -16,8 +16,6 @@ export type Product = {
   gallery: { src: string; alt: string; label: string; treatment?: "cutout" }[];
   tags: string[];
   price: number | null;
-  availability: string;
-  offerType: "new" | "new-or-used" | "export-confirmation";
   useCase: string;
   engine: string;
   horsepower: string;
@@ -32,151 +30,215 @@ const makeGallery = (name: string, image: string, imageAlt: string, treatment?: 
   { src: image, alt: imageAlt, label: `${name} / зимний фон`, treatment },
 ];
 
+const galleryPhoto = (file: string, alt: string, label: string, treatment?: "cutout") => ({
+  src: `/media/products/gallery/${file}`,
+  alt,
+  label,
+  treatment,
+});
+
+const additionalPhotos: Partial<Record<string, Product["gallery"]>> = {
+  "woideal-wd150": [
+    galleryPhoto("woideal-wd150-03.webp", "WOIDEAL WD150 сбоку", "Боковой ракурс"),
+    galleryPhoto("woideal-wd150-04.webp", "WOIDEAL WD150 с противоположной стороны", "Вид сбоку"),
+    galleryPhoto("woideal-wd150-02.webp", "Задняя часть WOIDEAL WD150", "Задняя часть"),
+  ],
+  "woideal-wd160": [
+    galleryPhoto("woideal-wd160-winter.webp", "WOIDEAL WD160 на заснеженной площадке", "На снегу"),
+  ],
+  "woideal-wd180": [
+    galleryPhoto("woideal-wd180-01.webp", "WOIDEAL WD180 спереди на снегу", "Передний ракурс"),
+    galleryPhoto("woideal-wd180-02.webp", "WOIDEAL WD180 на зимнем маршруте", "На маршруте"),
+    galleryPhoto("woideal-wd180-03.webp", "Задняя часть WOIDEAL WD180", "Задняя часть"),
+  ],
+  "woideal-wd300": [
+    galleryPhoto("woideal-wd300-scene.webp", "WOIDEAL WD300 в зимнем лесу", "На снегу"),
+    galleryPhoto("woideal-wd300-cockpit.webp", "Посадка и органы управления WOIDEAL WD300", "Кокпит и управление"),
+  ],
+  "woideal-wd380": [
+    galleryPhoto("woideal-wd380-winter.webp", "WOIDEAL WD380 на зимнем маршруте", "На снегу"),
+  ],
+  "taomotor-snowfox-ii": [
+    galleryPhoto("taomotor-snowfox-ii-winter.webp", "TaoMotor Snowfox II на зимнем маршруте", "На снегу"),
+    galleryPhoto("taomotor-snowfox-ii-01.png", "TaoMotor Snowfox II в трёхчетвертном ракурсе", "Общий вид", "cutout"),
+    galleryPhoto("taomotor-snowfox-ii-03.webp", "Задняя часть TaoMotor Snowfox II", "Вид сзади"),
+    galleryPhoto("taomotor-snowfox-ii-04.webp", "TaoMotor Snowfox II спереди", "Передний ракурс"),
+  ],
+  "taomotor-snowfox-iii": [
+    galleryPhoto("taomotor-snowfox-iii-01.png", "TaoMotor Snowfox III в профиль", "Боковой ракурс", "cutout"),
+    galleryPhoto("taomotor-snowfox-iii-03.webp", "TaoMotor Snowfox III под другим углом", "Трёхчетвертной ракурс"),
+    galleryPhoto("taomotor-snowfox-iii-04.webp", "TaoMotor Snowfox III спереди", "Передний ракурс"),
+  ],
+  "aodes-alpinecross-1000": [
+    galleryPhoto("aodes-alpinecross-1000-01.webp", "AODES AlpineCross 1000, вид сбоку", "Общий вид", "cutout"),
+    galleryPhoto("aodes-alpinecross-1000-02.webp", "AODES AlpineCross 1000 на снегу", "На снегу"),
+    galleryPhoto("aodes-alpinecross-1000-03.webp", "Гусеничный модуль AODES AlpineCross 1000", "Гусеничный модуль"),
+    galleryPhoto("aodes-alpinecross-1000-04.webp", "Элементы AODES AlpineCross 1000", "Детали модели"),
+  ],
+  "aodes-snowcross-800-wt": [
+    galleryPhoto("aodes-snowcross-800-wt-01.webp", "AODES Snowcross 800 WT, вид сбоку", "Общий вид", "cutout"),
+    galleryPhoto("aodes-snowcross-800-wt-02.webp", "AODES Snowcross 800 WT на снегу", "На снегу"),
+    galleryPhoto("aodes-snowcross-800-wt-03.webp", "AODES Snowcross 800 WT с экипажем", "На маршруте"),
+    galleryPhoto("aodes-snowcross-800-wt-04.webp", "AODES Snowcross 800 WT в движении", "В движении"),
+  ],
+  "aodes-snowcross-1000-wt": [
+    galleryPhoto("aodes-snowcross-1000-wt-01.webp", "AODES Snowcross 1000 WT, вид сбоку", "Общий вид", "cutout"),
+    galleryPhoto("aodes-snowcross-1000-wt-02.webp", "Передняя часть AODES Snowcross 1000 WT", "Передняя часть"),
+    galleryPhoto("aodes-snowcross-1000-wt-03.webp", "Руль и панель AODES Snowcross 1000 WT", "Кокпит и управление"),
+    galleryPhoto("aodes-snowcross-1000-wt-04.webp", "Панель приборов AODES Snowcross 1000 WT", "Панель приборов"),
+  ],
+  "aodes-snowcross-1000-swt": [
+    galleryPhoto("aodes-snowcross-1000-swt-01.webp", "AODES Snowcross 1000 SWT, вид сбоку", "Общий вид", "cutout"),
+    galleryPhoto("aodes-snowcross-1000-swt-03.webp", "Передняя подвеска AODES Snowcross 1000 SWT", "Передняя подвеска"),
+    galleryPhoto("aodes-snowcross-1000-swt-04.webp", "Широкая гусеница AODES Snowcross 1000 SWT", "Широкая гусеница"),
+  ],
+};
+
 function product(input: Omit<Product, "gallery">): Product {
-  return { ...input, gallery: makeGallery(input.name, input.image, input.imageAlt, input.imageTreatment) };
+  return { ...input, gallery: [...makeGallery(input.name, input.image, input.imageAlt, input.imageTreatment), ...(additionalPhotos[input.slug] ?? [])] };
 }
 
 export const snowbikeKits: Product[] = [
   product({
     slug: "htld-120sport-65", name: "HTLD-120Sport-65", category: "snowbike", brand: "HTLD",
-    eyebrow: "HTLD / 120 Sport", purpose: "двухрычажная подвеска", summary: "Гусеничный модуль с 65-мм зацепом и передней лыжей. Совместимость и комплектность подтверждаются под конкретный эндуро.",
+    eyebrow: "HTLD / 120 Sport", purpose: "двухрычажная подвеска", summary: "Плюсы: двухрычажная подвеска и 65-мм зацеп для активной езды по глубокому снегу. Ограничение: зимний комплект меняет характер управления базового эндуро.",
     image: "/media/snowbike-ai-hero.jpg", imageAlt: "Эндуро, подготовленный для зимней езды на гусеничном комплекте",
-    tags: ["65 мм", "Двухрычажная схема", "Для эндуро"], price: 145000, availability: "Поставка уточняется", offerType: "export-confirmation", useCase: "Sport",
+    tags: ["65 мм", "Двухрычажная схема", "Для эндуро"], price: 145000, useCase: "Sport",
     engine: "Не применимо", horsepower: "Зависит от базового эндуро", track: "Гусеничный модуль; точные параметры уточняются", seats: "1 на базе мотоцикла",
-    specs: [{ label: "Конфигурация", value: "Задний гусеничный модуль + передняя лыжа" }, { label: "Серия", value: "120 Sport" }, { label: "Высота зацепа", value: "65 мм" }, { label: "Подвеска модуля", value: "Двухрычажная" }, { label: "Совместимость", value: "Уточняется по марке, модели и году эндуро" }],
+    specs: [{ label: "Конфигурация", value: "Задний гусеничный модуль + передняя лыжа" }, { label: "Серия", value: "120 Sport" }, { label: "Высота зацепа", value: "65 мм" }, { label: "Подвеска модуля", value: "Двухрычажная" }],
   }),
   product({
     slug: "htld-120extreme-65", name: "HTLD-120Extreme-65", category: "snowbike", brand: "HTLD",
-    eyebrow: "HTLD / 120 Extreme", purpose: "однорычажная подвеска", summary: "Комплект 120 Extreme с 65-мм зацепом. Точный состав и совместимость с вашим эндуро нужно подтвердить до заказа.",
+    eyebrow: "HTLD / 120 Extreme", purpose: "однорычажная подвеска", summary: "Плюсы: 65-мм зацеп и однорычажная схема для рыхлого снега. Ограничение: зимняя конфигурация рассчитана на снег, а не на твёрдое покрытие.",
     image: "/media/snowbike-ai-hero.jpg", imageAlt: "Эндуро, подготовленный для зимней езды на гусеничном комплекте",
-    tags: ["65 мм", "Однорычажная схема", "Для эндуро"], price: 165000, availability: "Поставка уточняется", offerType: "export-confirmation", useCase: "Extreme",
+    tags: ["65 мм", "Однорычажная схема", "Для эндуро"], price: 165000, useCase: "Extreme",
     engine: "Не применимо", horsepower: "Зависит от базового эндуро", track: "Гусеничный модуль; точные параметры уточняются", seats: "1 на базе мотоцикла",
-    specs: [{ label: "Конфигурация", value: "Задний гусеничный модуль + передняя лыжа" }, { label: "Серия", value: "120 Extreme" }, { label: "Высота зацепа", value: "65 мм" }, { label: "Подвеска модуля", value: "Однорычажная" }, { label: "Совместимость", value: "Уточняется по марке, модели и году эндуро" }],
+    specs: [{ label: "Конфигурация", value: "Задний гусеничный модуль + передняя лыжа" }, { label: "Серия", value: "120 Extreme" }, { label: "Высота зацепа", value: "65 мм" }, { label: "Подвеска модуля", value: "Однорычажная" }],
   }),
   product({
     slug: "htld-129extreme-65", name: "HTLD-129Extreme-65", category: "snowbike", brand: "HTLD",
-    eyebrow: "HTLD / 129 Extreme", purpose: "однорычажная подвеска", summary: "Версия 129 Extreme с 65-мм зацепом и передней лыжей. Перед заказом сверяются база мотоцикла и доступная комплектация.",
+    eyebrow: "HTLD / 129 Extreme", purpose: "однорычажная подвеска", summary: "Плюсы: серия 129, 65-мм зацеп и передняя лыжа для сбалансированной езды по зимним маршрутам. Ограничение: комплект работает только в снеговой конфигурации.",
     image: "/media/snowbike-ai-hero.jpg", imageAlt: "Эндуро, подготовленный для зимней езды на гусеничном комплекте",
-    tags: ["65 мм", "Однорычажная схема", "Для эндуро"], price: 169000, availability: "Поставка уточняется", offerType: "export-confirmation", useCase: "Extreme",
+    tags: ["65 мм", "Однорычажная схема", "Для эндуро"], price: 169000, useCase: "Extreme",
     engine: "Не применимо", horsepower: "Зависит от базового эндуро", track: "Гусеничный модуль; точные параметры уточняются", seats: "1 на базе мотоцикла",
-    specs: [{ label: "Конфигурация", value: "Задний гусеничный модуль + передняя лыжа" }, { label: "Серия", value: "129 Extreme" }, { label: "Высота зацепа", value: "65 мм" }, { label: "Подвеска модуля", value: "Однорычажная" }, { label: "Совместимость", value: "Уточняется по марке, модели и году эндуро" }],
+    specs: [{ label: "Конфигурация", value: "Задний гусеничный модуль + передняя лыжа" }, { label: "Серия", value: "129 Extreme" }, { label: "Высота зацепа", value: "65 мм" }, { label: "Подвеска модуля", value: "Однорычажная" }],
   }),
   product({
     slug: "htld-129extreme-80", name: "HTLD-129Extreme-80", category: "snowbike", brand: "HTLD",
-    eyebrow: "HTLD / 129 Extreme", purpose: "однорычажная подвеска", summary: "Версия 129 Extreme с 80-мм зацепом. Геометрию установки и совместимость подтверждаем для конкретного мотоцикла.",
+    eyebrow: "HTLD / 129 Extreme", purpose: "для глубокого снега", summary: "Плюсы: высокий 80-мм зацеп помогает продвигаться по глубокому рыхлому снегу. Ограничение: на укатанной трассе такой высокий профиль может быть избыточен.",
     image: "/media/snowbike-ai-hero.jpg", imageAlt: "Эндуро, подготовленный для зимней езды на гусеничном комплекте",
-    tags: ["80 мм", "Однорычажная схема", "Для эндуро"], price: 179000, availability: "Поставка уточняется", offerType: "export-confirmation", useCase: "Extreme",
+    tags: ["80 мм", "Однорычажная схема", "Для эндуро"], price: 179000, useCase: "Extreme",
     engine: "Не применимо", horsepower: "Зависит от базового эндуро", track: "Гусеничный модуль; точные параметры уточняются", seats: "1 на базе мотоцикла",
-    specs: [{ label: "Конфигурация", value: "Задний гусеничный модуль + передняя лыжа" }, { label: "Серия", value: "129 Extreme" }, { label: "Высота зацепа", value: "80 мм" }, { label: "Подвеска модуля", value: "Однорычажная" }, { label: "Совместимость", value: "Уточняется по марке, модели и году эндуро" }],
+    specs: [{ label: "Конфигурация", value: "Задний гусеничный модуль + передняя лыжа" }, { label: "Серия", value: "129 Extreme" }, { label: "Высота зацепа", value: "80 мм" }, { label: "Подвеска модуля", value: "Однорычажная" }],
   }),
   product({
     slug: "nibbi-vanguard-r-120", name: "NIBBI Vanguard R-120", category: "snowbike", brand: "NIBBI Racing",
-    eyebrow: "NIBBI / Vanguard R-120", purpose: "комплект для эндуро", summary: "Комплект R-120 с задней гусеницей и передней лыжей. Вариант установки проверяется под конкретную базу и конфигурацию.",
+    eyebrow: "NIBBI / Vanguard R-120", purpose: "комплект для эндуро", summary: "Плюсы: гусеница 3050 × 300 мм, 50-мм зацеп и передняя лыжа для зимней тяги. Ограничение: для летней езды потребуется вернуть колёсную конфигурацию.",
     image: "/media/snowbike-ai-hero.jpg", imageAlt: "Эндуро, подготовленный для зимней езды на гусеничном комплекте",
-    tags: ["3050 × 300 мм", "Зацеп 50 мм", "Передняя лыжа"], price: 280000, availability: "Поставка уточняется", offerType: "export-confirmation", useCase: "Racing",
+    tags: ["3050 × 300 мм", "Зацеп 50 мм", "Передняя лыжа"], price: 280000, useCase: "Racing",
     engine: "Не применимо", horsepower: "Зависит от базового эндуро", track: "3050 × 300 мм; зацеп 50 мм", seats: "1 на базе мотоцикла",
-    specs: [{ label: "Конфигурация", value: "Задний гусеничный модуль + передняя лыжа" }, { label: "Длина × ширина гусеницы", value: "3050 × 300 мм" }, { label: "Высота зацепа", value: "50 мм" }, { label: "Совместимость", value: "Уточняется для конкретного мотоцикла" }, { label: "Комплектация", value: "После подтверждения поставщика" }],
+    specs: [{ label: "Конфигурация", value: "Задний гусеничный модуль + передняя лыжа" }, { label: "Длина × ширина гусеницы", value: "3050 × 300 мм" }, { label: "Высота зацепа", value: "50 мм" }],
   }),
 ];
 
 export const snowmobiles: Product[] = [
   product({
-    slug: "woideal-wd150", name: "WOIDEAL WD150", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / Компактный", purpose: "компактная модель", summary: "Компактный снегоход с двигателем 149,6 см³. Это небольшой формат; не позиционируется как крупная взрослая утилитарная машина.",
-    image: "/media/products/woideal-wd160-site.webp", imageAlt: "Компактный снегоход WOIDEAL в зимнем лесу",
-    tags: ["149,6 см³", "9,12 л.с.", "Компактный"], price: 235000, availability: "Экспортная модель", offerType: "new", useCase: "Компактный",
-    engine: "149,6 см³", horsepower: "9,12 л.с.", track: "Ширина 380 мм", seats: "Уточняется по версии",
-    specs: [{ label: "Двигатель", value: "149,6 см³, 4-тактный" }, { label: "Мощность", value: "9,12 л.с." }, { label: "Ширина гусеницы", value: "380 мм" }, { label: "Максимальная нагрузка", value: "175 кг" }, { label: "Комплектация", value: "После подтверждения поставщика" }],
+    slug: "woideal-wd150", name: "WOIDEAL WD150", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / Компактный", purpose: "компактный", summary: "Плюсы: 149,6 см³, 9,12 л.с., реверс и нагрузка до 175 кг в компактном корпусе. Ограничение: скорость до 40 км/ч и умеренная тяга для тяжёлой буксировки.",
+    image: "/media/products/gallery/woideal-wd150-feature.webp", imageAlt: "Компактный снегоход WOIDEAL WD150 на зимнем маршруте",
+    tags: ["149,6 см³", "9,12 л.с.", "До 40 км/ч"], price: 235000, useCase: "Компактный",
+    engine: "149,6 см³", horsepower: "9,12 л.с.", track: "Ширина 380 мм", seats: "—",
+    specs: [{ label: "Двигатель", value: "149,6 см³, 4-тактный" }, { label: "Мощность", value: "9,12 л.с." }, { label: "Ширина гусеницы", value: "380 мм" }, { label: "Максимальная нагрузка", value: "175 кг" }, { label: "Максимальная скорость", value: "40 км/ч" }, { label: "Сухая масса", value: "167 кг" }],
   }),
   product({
-    slug: "woideal-wd180", name: "WOIDEAL WD180", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / 180", purpose: "лёгкая зимняя техника", summary: "Модель с 177,3-см³ двигателем. Поставщик может предлагать разные версии; тип питания и точную комплектацию нужно сверить перед заказом.",
+    slug: "woideal-wd180", name: "WOIDEAL WD180", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / 180", purpose: "компактный", summary: "Плюсы: мотор 177,3 см³, вариатор с реверсом и гусеница шириной 380 мм. Ограничение: EFI и карбюраторная версии отличаются мощностью и откликом двигателя.",
     image: "/media/products/woideal-wd180-site.webp", imageAlt: "Снегоход WOIDEAL WD180 на заснеженной лесной дороге",
-    tags: ["177,3 см³", "Версия уточняется", "Экспортная модель"], price: 245000, availability: "Экспортная модель", offerType: "new", useCase: "Лёгкий формат",
-    engine: "177,3 см³", horsepower: "Зависит от версии", track: "380 × 2662 × 29 мм — по экспортной версии", seats: "Уточняется по версии",
-    specs: [{ label: "Двигатель", value: "177,3 см³, 4-тактный" }, { label: "Мощность", value: "Зависит от версии" }, { label: "Гусеница", value: "380 × 2662 × 29 мм — экспортная спецификация" }, { label: "Питание", value: "EFI или карбюратор — сверить по предложению" }, { label: "Комплектация", value: "После подтверждения поставщика" }],
+    tags: ["177,3 см³", "≈ 12 л.с.", "Реверс"], price: 245000, useCase: "Лёгкий формат",
+    engine: "177,3 см³, 4-тактный", horsepower: "11,97–12,1 л.с.", track: "380 × 2626 × 29 мм", seats: "—",
+    specs: [{ label: "Двигатель", value: "177,3 см³, 4-тактный" }, { label: "Мощность", value: "11,97 л.с. (EFI) / 12,1 л.с. (карбюратор)" }, { label: "Гусеница", value: "380 × 2626 × 29 мм" }, { label: "Питание", value: "EFI или карбюратор" }, { label: "Топливный бак", value: "12 л" }, { label: "Трансмиссия", value: "CVT, F-N-R" }],
   }),
   product({
-    slug: "woideal-wd200-a-2026", name: "WOIDEAL WD200-A (2026)", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / 2026", purpose: "компактная модель", summary: "Актуальная версия WOIDEAL с двигателем 149,6 см³. Заводские параметры опубликованы; экспортную комплектацию и возможность поставки подтверждаем отдельно.",
+    slug: "woideal-wd200-a-2026", name: "WOIDEAL WD200-A (2026)", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / 2026", purpose: "компактный", summary: "Плюсы: WD200-A весит 167 кг, развивает 9,12 л.с. и оснащён гусеницей шириной 380 мм. Ограничение: максимальная скорость — 40 км/ч.",
     image: "/media/products/woideal-wd200a-site.webp", imageAlt: "Компактный снегоход на заснеженном маршруте",
-    tags: ["149,6 см³", "9,12 л.с.", "380 мм"], price: null, availability: "Экспорт уточняется", offerType: "export-confirmation", useCase: "Компактный",
-    engine: "149,6 см³", horsepower: "6,8 кВт / 9,12 л.с.", track: "380 × 2626 × 29 мм", seats: "Уточняется по версии",
-    specs: [{ label: "Версия", value: "WD200-A, модельный год 2026" }, { label: "Двигатель", value: "149,6 см³, одноцилиндровый, 4-тактный" }, { label: "Мощность", value: "6,8 кВт / 9,12 л.с." }, { label: "Гусеница", value: "380 × 2626 × 29 мм" }, { label: "Масса", value: "167 кг" }, { label: "Максимальная скорость", value: "40 км/ч" }, { label: "Экспорт и наличие", value: "После подтверждения поставщика" }],
+    tags: ["149,6 см³", "9,12 л.с.", "380 мм"], price: null, useCase: "Компактный",
+    engine: "149,6 см³", horsepower: "6,8 кВт / 9,12 л.с.", track: "380 × 2626 × 29 мм", seats: "—",
+    specs: [{ label: "Модельный год", value: "2026" }, { label: "Двигатель", value: "149,6 см³, одноцилиндровый, 4-тактный" }, { label: "Мощность", value: "6,8 кВт / 9,12 л.с." }, { label: "Гусеница", value: "380 × 2626 × 29 мм" }, { label: "Масса", value: "167 кг" }, { label: "Максимальная скорость", value: "40 км/ч" }],
   }),
   product({
-    slug: "woideal-wd250-a-2026", name: "WOIDEAL WD250-A (2026)", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / 2026", purpose: "компактная модель", summary: "Версия WOIDEAL 2026 года с двигателем 177,3 см³ и впрыском топлива. Параметры сверены по карточке производителя; экспорт и комплектацию подтверждаем до заказа.",
+    slug: "woideal-wd250-a-2026", name: "WOIDEAL WD250-A (2026)", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / 2026", purpose: "компактный", summary: "Плюсы: WD250-A сочетает 177,3 см³, электронный впрыск и мощность 11,97 л.с. Ограничение: масса 185 кг выше, чем у компактной WD200-A.",
     image: "/media/products/woideal-wd250a-site.webp", imageAlt: "Компактный снегоход на заснеженной лесной дороге",
-    tags: ["177,3 см³", "11,97 л.с.", "380 мм"], price: null, availability: "Экспорт уточняется", offerType: "export-confirmation", useCase: "Компактный",
-    engine: "177,3 см³", horsepower: "8,8 кВт / 11,97 л.с.", track: "380 × 2626 × 29 мм", seats: "Уточняется по версии",
-    specs: [{ label: "Версия", value: "WD250-A, модельный год 2026" }, { label: "Двигатель", value: "177,3 см³, одноцилиндровый, 4-тактный" }, { label: "Мощность", value: "8,8 кВт / 11,97 л.с." }, { label: "Питание", value: "Электронный впрыск" }, { label: "Гусеница", value: "380 × 2626 × 29 мм" }, { label: "Масса", value: "185 кг" }, { label: "Максимальная скорость", value: "50 км/ч" }, { label: "Экспорт и наличие", value: "После подтверждения поставщика" }],
+    tags: ["177,3 см³", "11,97 л.с.", "380 мм"], price: null, useCase: "Компактный",
+    engine: "177,3 см³", horsepower: "8,8 кВт / 11,97 л.с.", track: "380 × 2626 × 29 мм", seats: "—",
+    specs: [{ label: "Модельный год", value: "2026" }, { label: "Двигатель", value: "177,3 см³, одноцилиндровый, 4-тактный" }, { label: "Мощность", value: "8,8 кВт / 11,97 л.с." }, { label: "Питание", value: "Электронный впрыск" }, { label: "Гусеница", value: "380 × 2626 × 29 мм" }, { label: "Масса", value: "185 кг" }, { label: "Максимальная скорость", value: "50 км/ч" }],
   }),
   product({
-    slug: "woideal-wd300", name: "WOIDEAL WD300", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / 300", purpose: "зимний маршрут", summary: "Снегоход WOIDEAL из линейки экспортных моделей. Актуальные параметры зависят от версии и подтверждаются по предложению поставщика.",
+    slug: "woideal-wd300", name: "WOIDEAL WD300", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / 300", purpose: "универсальный", summary: "Плюсы: четырёхтактный одноцилиндровый мотор с воздушно-масляным охлаждением подходит для регулярных зимних поездок. Ограничение: это средний класс, без запаса тяги полноразмерных утилитарных машин.",
     image: "/media/products/woideal-wd300-site.webp", imageAlt: "Снегоход WOIDEAL WD300 на зимнем маршруте",
-    tags: ["Экспортная модель", "Комплектация уточняется", "Наличие проверяется"], price: 308900, availability: "Наличие уточняется", offerType: "new", useCase: "Маршрут",
-    engine: "Уточняется по версии", horsepower: "Уточняется по версии", track: "Уточняется по версии", seats: "Уточняется по версии",
-    specs: [{ label: "Двигатель", value: "Параметры сверяются по актуальной версии" }, { label: "Мощность", value: "Уточняется" }, { label: "Гусеница", value: "Уточняется" }, { label: "Экспортное исполнение", value: "Подтвердить по предложению" }, { label: "Комплектация", value: "После подтверждения поставщика" }],
+    tags: ["4-тактный мотор", "Воздушно-масляное охлаждение", "WOIDEAL"], price: 308900, useCase: "Маршрут",
+    engine: "Одноцилиндровый, 4-тактный", horsepower: "—", track: "—", seats: "—",
+    specs: [{ label: "Двигатель", value: "Одноцилиндровый, 4-тактный" }, { label: "Охлаждение", value: "Воздушное и масляное" }],
   }),
   product({
-    slug: "woideal-wd380", name: "WOIDEAL WD380", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / 380", purpose: "остатки или б/у", summary: "Модель снята с текущей линейки производителя. Рассматриваем складские остатки или б/у экземпляр; год, состояние и документы проверяются отдельно.",
+    slug: "woideal-wd380", name: "WOIDEAL WD380", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / WD380", purpose: "утилитарный", summary: "Плюсы: 292,4 см³, 25,88 л.с., вариатор с реверсом, бак 27 л и гусеница длиной 3294 мм. Ограничение: ширина 380 мм уступает широкогусеничным версиям в рыхлом снегу.",
     image: "/media/products/woideal-wd380-site.webp", imageAlt: "Снегоход на зимней лесной дороге",
-    tags: ["292,4 см³", "Остатки / б/у", "Состояние проверяется"], price: 419000, availability: "Остатки / б/у", offerType: "new-or-used", useCase: "Остатки и б/у",
-    engine: "292,4 см³", horsepower: "19 кВт / около 25,8 л.с.", track: "380 мм ширина", seats: "Уточняется по экземпляру",
-    specs: [{ label: "Двигатель", value: "292,4 см³ — данные производителя" }, { label: "Мощность", value: "19 кВт / около 25,8 л.с." }, { label: "Ширина гусеницы", value: "380 мм" }, { label: "Статус модели", value: "Снята с текущей линейки" }, { label: "Формат поставки", value: "Новый остаток или б/у — после проверки экземпляра" }],
+    tags: ["292,4 см³", "25,88 л.с.", "380 × 3294 мм"], price: 419000, useCase: "Маршрут и хозяйство",
+    engine: "292,4 см³, 4-тактный", horsepower: "19,3 кВт / 25,88 л.с.", track: "3294 × 380 × 29 мм", seats: "—",
+    specs: [{ label: "Двигатель", value: "292,4 см³, одноцилиндровый, 4-тактный" }, { label: "Охлаждение", value: "Жидкостное" }, { label: "Мощность", value: "19,3 кВт / 25,88 л.с." }, { label: "Гусеница", value: "3294 × 380 × 29 мм" }, { label: "Трансмиссия", value: "Вариатор, F-N-R" }, { label: "Топливный бак", value: "27 л" }, { label: "Сухая масса", value: "220 кг" }, { label: "Максимальная скорость", value: "60 км/ч" }, { label: "Оснащение", value: "Подогрев рукояток" }],
   }),
   product({
-    slug: "woideal-wd700-2026", name: "WOIDEAL WD700 (2026)", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / 2026", purpose: "крупная версия", summary: "Модель 2026 года есть в китайском каталоге производителя. Фактический экспортный вариант, комплектацию и возможность поставки подтверждаем до заказа.",
+    slug: "woideal-wd700-2026", name: "WOIDEAL WD700 (2026)", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / 2026", purpose: "мощный утилитарный", summary: "Плюсы: старшая WD700 получила двигатель 622 см³ мощностью 42,17 л.с. Ограничение: это более крупный и требовательный класс, чем компактные WD150 и WD200-A.",
     image: "/media/products/woideal-wd700-site.webp", imageAlt: "Полноразмерный снегоход на зимнем маршруте",
-    tags: ["622 см³", "Модель 2026", "Экспорт уточняется"], price: null, availability: "Экспорт уточняется", offerType: "export-confirmation", useCase: "Новая версия",
-    engine: "622 см³", horsepower: "42,17 л.с.", track: "Уточняется", seats: "Уточняется",
-    specs: [{ label: "Двигатель", value: "622 см³ — спецификация WD700" }, { label: "Мощность", value: "31 кВт / 42,17 л.с." }, { label: "Версия", value: "Модель 2026" }, { label: "Экспортное исполнение", value: "Проверить до заказа" }, { label: "Наличие и доставка", value: "После подтверждения поставщика" }],
+    tags: ["622 см³", "42,17 л.с.", "Модель 2026"], price: null, useCase: "Новая версия",
+    engine: "622 см³", horsepower: "42,17 л.с.", track: "—", seats: "—",
+    specs: [{ label: "Модельный год", value: "2026" }, { label: "Двигатель", value: "622 см³" }, { label: "Мощность", value: "31 кВт / 42,17 л.с." }],
   }),
   product({
-    slug: "taomotor-snowfox-iii", name: "TaoMotor Snowfox III", category: "snowmobile", brand: "TaoMotor", eyebrow: "TaoMotor / Snowfox III", purpose: "компактный снегоход", summary: "Компактная модель с двигателем 170 см³ и двухместной компоновкой. Российский маршрут поставки и актуальную комплектацию необходимо подтвердить.",
-    image: "/media/products/taomotor-snowfox-ii-site.webp", imageAlt: "Компактный снегоход семейства TaoMotor Snowfox на зимней лесной дороге",
-    tags: ["170 см³", "2 места", "Цена по запросу"], price: null, availability: "Экспорт уточняется", offerType: "export-confirmation", useCase: "Компактный",
-    engine: "170 см³", horsepower: "7,6 кВт — по карточке производителя", track: "Уточняется по версии", seats: "2",
-    specs: [{ label: "Двигатель", value: "170 см³" }, { label: "Мощность", value: "7,6 кВт — по карточке производителя" }, { label: "Посадочных мест", value: "2" }, { label: "Экспортное исполнение", value: "Проверить для поставки в РФ" }, { label: "Комплектация", value: "После подтверждения поставщика" }],
+    slug: "taomotor-snowfox-iii", name: "TaoMotor Snowfox III", category: "snowmobile", brand: "TaoMotor", eyebrow: "TaoMotor / Snowfox III", purpose: "компактный, 2 места", summary: "Плюсы: двухместная посадка, масса 130 кг, нагрузка до 170 кг и скорость 45–50 км/ч. Ограничение: бак 4,5 л сокращает пробег между заправками.",
+    image: "/media/products/gallery/taomotor-snowfox-iii-winter.webp", imageAlt: "TaoMotor Snowfox III на зимнем маршруте",
+    tags: ["170 см³", "2 места"], price: null, useCase: "Компактный",
+    engine: "170 см³, GY6", horsepower: "7,6 кВт", track: "2150 × 380 мм", seats: "2",
+    specs: [{ label: "Двигатель", value: "GY6, 170 см³" }, { label: "Мощность", value: "7,6 кВт при 7000 об/мин" }, { label: "Максимальный момент", value: "10,2 Н·м при 5000 об/мин" }, { label: "Гусеница", value: "2150 × 380 мм" }, { label: "Сухая масса", value: "130 кг" }, { label: "Топливный бак", value: "4,5 л" }, { label: "Посадочных мест", value: "2" }],
   }),
   product({
-    slug: "woideal-wd160", name: "WOIDEAL WD160", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / WD160", purpose: "детский компактный", summary: "Компактная детская модель производителя. Предлагаются версии WD160-A и WD160-B с разными двигателями; это не взрослый утилитарный снегоход.",
+    slug: "woideal-wd160", name: "WOIDEAL WD160", category: "snowmobile", brand: "WOIDEAL", eyebrow: "WOIDEAL / WD160", purpose: "детский", summary: "Плюсы: версии 98 и 196 см³, масса 75 кг и независимая передняя подвеска. Ограничение: скорость до 12 км/ч и нагрузка до 40 кг задают детский формат.",
     image: "/media/products/woideal-wd160-site.webp", imageAlt: "Компактный детский снегоход WOIDEAL WD160 на зимнем фоне",
-    tags: ["98 / 196 см³", "Детская модель", "Цена по запросу"], price: null, availability: "Версия и экспорт уточняются", offerType: "export-confirmation", useCase: "Детский компактный",
+    tags: ["98 / 196 см³", "Детская модель"], price: null, useCase: "Детский компактный",
     engine: "98 см³ (WD160-B) или 196 см³ (WD160-A)", horsepower: "2,51 или 5,85 л.с. — по версии", track: "256 × 1728 мм", seats: "1",
-    specs: [{ label: "Версии", value: "WD160-A / WD160-B" }, { label: "Двигатель", value: "98 см³ или 196 см³, 4-тактный — по версии" }, { label: "Мощность", value: "2,51 или 5,85 л.с. — по версии" }, { label: "Гусеница", value: "256 × 1728 мм" }, { label: "Максимальная нагрузка", value: "40 кг — данные производителя" }, { label: "Возраст и экспорт", value: "Уточнить перед заказом" }],
+    specs: [{ label: "Версии", value: "WD160-A / WD160-B" }, { label: "Двигатель", value: "98 см³ или 196 см³, 4-тактный" }, { label: "Мощность", value: "2,51 или 5,85 л.с." }, { label: "Гусеница", value: "256 × 1728 × 23 мм" }, { label: "Максимальная нагрузка", value: "40 кг" }, { label: "Максимальная скорость", value: "12 км/ч" }, { label: "Сухая масса", value: "75 кг" }],
   }),
   product({
-    slug: "taomotor-snowfox-ii", name: "TaoMotor Snowfox II", category: "snowmobile", brand: "TaoMotor", eyebrow: "TaoMotor / Snowfox II", purpose: "двухместный компактный", summary: "Двухместная компактная модель с двигателем GY6 170 см³. Параметры взяты из карточки производителя; конкретную экспортную версию нужно подтвердить.",
+    slug: "taomotor-snowfox-ii", name: "TaoMotor Snowfox II", category: "snowmobile", brand: "TaoMotor", eyebrow: "TaoMotor / Snowfox II", purpose: "компактный, 2 места", summary: "Плюсы: двигатель GY6 170 см³, два места, масса 130 кг и автоматическая трансмиссия. Ограничение: гусеница 380 мм уже, чем у широкогусеничных утилитарных моделей.",
     image: "/media/products/taomotor-snowfox-ii-site.webp", imageAlt: "TaoMotor Snowfox II на зимней лесной дороге",
-    tags: ["170 см³", "7,6 кВт", "2 места"], price: null, availability: "Экспорт уточняется", offerType: "export-confirmation", useCase: "Компактный",
+    tags: ["170 см³", "7,6 кВт", "2 места"], price: null, useCase: "Компактный",
     engine: "GY6, 170 см³", horsepower: "7,6 кВт", track: "Ширина 380 мм", seats: "2",
-    specs: [{ label: "Двигатель", value: "GY6, 170 см³" }, { label: "Максимальная мощность", value: "7,6 кВт при 7000 об/мин" }, { label: "Максимальный момент", value: "10,2 Н·м при 5000 об/мин" }, { label: "Ширина гусеницы", value: "380 мм" }, { label: "Сухая масса", value: "130 кг" }, { label: "Посадочных мест", value: "2" }, { label: "Наличие и экспорт", value: "После подтверждения поставщика" }],
+    specs: [{ label: "Двигатель", value: "GY6, 170 см³" }, { label: "Максимальная мощность", value: "7,6 кВт при 7000 об/мин" }, { label: "Максимальный момент", value: "10,2 Н·м при 5000 об/мин" }, { label: "Ширина гусеницы", value: "380 мм" }, { label: "Сухая масса", value: "130 кг" }, { label: "Посадочных мест", value: "2" }],
   }),
   product({
-    slug: "aodes-snowcross-800-wt", name: "AODES Snowcross 800 WT", category: "snowmobile", brand: "AODES", eyebrow: "AODES / Snowcross 800 WT", purpose: "утилитарный", summary: "Глобальная версия Snowcross с 800-см³ V-образным двигателем и гусеницей шириной 500 мм. В китайском предложении проверяем год, комплектацию и документы.",
+    slug: "aodes-snowcross-800-wt", name: "AODES Snowcross 800 WT", category: "snowmobile", brand: "AODES", eyebrow: "AODES / Snowcross 800 WT", purpose: "утилитарный", summary: "Плюсы: V-образный двигатель 800 см³, около 60 л.с., два места и длинная гусеница. Ограничение: ширина 500 мм требует пространства в тесном лесу.",
     image: "/media/products/aodes-snowcross-800-wt-site.webp", imageAlt: "AODES Snowcross 800 WT на снежном маршруте",
-    tags: ["800 см³", "60 л.с.", "2 места"], price: 990000, availability: "Ориентир по предложению из Китая", offerType: "export-confirmation", useCase: "Утилитарный",
-    engine: "800 см³, V-twin, 4-тактный", horsepower: "44 кВт / около 60 л.с.", track: "3925 × 500 × 40 мм", seats: "2 — по версии",
-    specs: [{ label: "Двигатель", value: "800 см³, V-образный двухцилиндровый, 4-тактный" }, { label: "Максимальная мощность", value: "44 кВт при 6000 об/мин" }, { label: "Гусеница", value: "3925 × 500 × 40 мм" }, { label: "Топливный бак", value: "42 л" }, { label: "Скорость", value: "До 80 км/ч — по спецификации производителя" }, { label: "Посадочных мест", value: "Двухместная конфигурация — подтвердить по предложению" }, { label: "Цена", value: "Ориентир предложения из Китая; подтвердить перед заказом" }],
+    tags: ["800 см³", "60 л.с.", "2 места"], price: 990000, useCase: "Утилитарный",
+    engine: "800 см³, V-twin, 4-тактный", horsepower: "44 кВт / около 60 л.с.", track: "3925 × 500 × 40 мм", seats: "2",
+    specs: [{ label: "Двигатель", value: "800 см³, V-образный двухцилиндровый, 4-тактный" }, { label: "Максимальная мощность", value: "44 кВт при 6000 об/мин" }, { label: "Гусеница", value: "3925 × 500 × 40 мм" }, { label: "Топливный бак", value: "42 л" }, { label: "Максимальная скорость", value: "До 80 км/ч" }, { label: "Посадочных мест", value: "2" }],
   }),
   product({
-    slug: "aodes-alpinecross-1000", name: "AODES AlpineCross 1000", category: "snowmobile", brand: "AODES", eyebrow: "AODES / AlpineCross 1000", purpose: "туристический утилитарный", summary: "Полноразмерная двухместная модель AODES для зимних маршрутов. Цена взята из предложения с маршрутом Китай → Владивосток; наличие и комплектацию нужно перепроверить.",
+    slug: "aodes-alpinecross-1000", name: "AODES AlpineCross 1000", category: "snowmobile", brand: "AODES", eyebrow: "AODES / AlpineCross 1000", purpose: "туристический, 2 места", summary: "Плюсы: двухместная туристическая платформа, V-twin 976 см³ и длинная гусеница 4140 мм для протяжённых маршрутов. Ограничение: гусеница шириной 444 мм уже, чем у утилитарных Snowcross WT/SWT, поэтому в глубоком рыхлом снегу она уступает им по опорной площади.",
     image: "/media/products/aodes-alpinecross-1000.webp", imageAlt: "AODES AlpineCross 1000 на открытом снежном маршруте",
-    tags: ["1000 см³", "2 места", "Китай → Владивосток"], price: 890000, availability: "Ориентир предложения из Китая", offerType: "export-confirmation", useCase: "Маршрут и хозяйство",
-    engine: "1000 см³ — индекс и рыночные предложения", horsepower: "Уточняется по версии", track: "Уточняется по версии", seats: "2",
-    specs: [{ label: "Модель", value: "AlpineCross 1000" }, { label: "Двигатель", value: "1000 см³ — сверить точную спецификацию" }, { label: "Посадочных мест", value: "2" }, { label: "Цена", value: "Ориентир предложения Китай → Владивосток" }, { label: "Комплектация и документы", value: "После подтверждения поставщика" }],
+    tags: ["976 см³", "≈ 87 л.с.", "2 места"], price: 890000, useCase: "Маршрут",
+    engine: "976 см³, V-twin, 4-тактный", horsepower: "63,7 кВт / 86,6 л.с.", track: "4140,5 × 444 × 45,7 мм", seats: "2",
+    specs: [{ label: "Двигатель", value: "976 см³, V-twin, 4-тактный" }, { label: "Мощность", value: "63,7 кВт / 86,6 л.с." }, { label: "Гусеница", value: "4140,5 × 444 × 45,7 мм" }, { label: "Топливный бак", value: "34 л" }, { label: "Посадочных мест", value: "2" }],
   }),
   product({
-    slug: "aodes-snowcross-1000-wt", name: "AODES Snowcross 1000 WT", category: "snowmobile", brand: "AODES", eyebrow: "AODES / Snowcross 1000 WT", purpose: "утилитарный", summary: "Глобальная версия AODES Snowcross с узкой гусеницей WT. Модель присутствует в спецификации производителя; экспортное исполнение и цена проверяются отдельно.",
+    slug: "aodes-snowcross-1000-wt", name: "AODES Snowcross 1000 WT", category: "snowmobile", brand: "AODES", eyebrow: "AODES / Snowcross 1000 WT", purpose: "утилитарный", summary: "Плюсы: V-twin 976 см³, около 87 л.с., два места и гусеница шириной 500 мм. Ограничение: по плавучести в глубоком снегу уступает широкой версии SWT.",
     image: "/media/products/aodes-snowcross-1000-wt.png", imageAlt: "Снегоход AODES Snowcross WT из глобальной линейки производителя", imageTreatment: "cutout",
-    tags: ["976 см³", "WT / 500 мм", "Цена по запросу"], price: null, availability: "Экспорт и наличие уточняются", offerType: "export-confirmation", useCase: "Утилитарный",
-    engine: "976 см³ — уточнить по году", horsepower: "Уточняется по версии", track: "Уточняется по версии", seats: "Уточняется по версии",
-    specs: [{ label: "Модель", value: "Snowcross 1000 WT" }, { label: "Двигатель", value: "V-twin, 4-тактный; точный объём сверяется по году" }, { label: "Гусеница", value: "Уточняется по версии" }, { label: "Экспортное исполнение", value: "Подтвердить по предложению" }, { label: "Цена и наличие", value: "После подтверждения поставщика" }],
+    tags: ["976 см³", "WT / 508 мм", "2 места"], price: null, useCase: "Утилитарный",
+    engine: "976 см³, V-twin, 4-тактный", horsepower: "87 л.с.", track: "3923 × 508 × 38 мм", seats: "2",
+    specs: [{ label: "Двигатель", value: "976 см³, V-twin, 4-тактный" }, { label: "Мощность", value: "87 л.с." }, { label: "Гусеница", value: "3923 × 508 × 38 мм" }, { label: "Посадочных мест", value: "2" }],
   }),
   product({
-    slug: "aodes-snowcross-1000-swt", name: "AODES Snowcross 1000 SWT", category: "snowmobile", brand: "AODES", eyebrow: "AODES / Snowcross 1000 SWT", purpose: "широкая гусеница", summary: "Широкая версия Snowcross для рыхлого снега. Предварительная цена взята из предложения под заказ из Китая; конкретный год и комплектацию сверяем до оплаты.",
+    slug: "aodes-snowcross-1000-swt", name: "AODES Snowcross 1000 SWT", category: "snowmobile", brand: "AODES", eyebrow: "AODES / Snowcross 1000 SWT", purpose: "широкая гусеница", summary: "Плюсы: V-twin 976 см³, около 87 л.с. и 600-мм гусеница с большой опорной площадью. Ограничение: широкому снегоходу сложнее в узком лесу и тесных колеях.",
     image: "/media/products/aodes-snowcross-1000-swt.png", imageAlt: "Снегоход AODES Snowcross SWT из глобальной линейки производителя", imageTreatment: "cutout",
-    tags: ["976 см³", "SWT", "2 места"], price: 1190000, availability: "Ориентир предложения под заказ", offerType: "export-confirmation", useCase: "Рыхлый снег",
-    engine: "976 см³ — уточнить по году", horsepower: "Уточняется по версии", track: "Ширина и длина уточняются по версии", seats: "2 — по предложению",
-    specs: [{ label: "Модель", value: "Snowcross 1000 SWT" }, { label: "Двигатель", value: "V-twin, 4-тактный; точный объём сверяется по году" }, { label: "Гусеница", value: "Широкая конфигурация SWT; точный размер уточнить" }, { label: "Посадочных мест", value: "2 — подтвердить по комплектации" }, { label: "Цена", value: "Ориентир предложения из Китая; проверить перед заказом" }],
+    tags: ["976 см³", "SWT / 609 мм", "2 места"], price: 1190000, useCase: "Рыхлый снег",
+    engine: "976 см³, V-twin, 4-тактный", horsepower: "87 л.с.", track: "3923 × 609 × 32 мм", seats: "2",
+    specs: [{ label: "Двигатель", value: "976 см³, V-twin, 4-тактный" }, { label: "Мощность", value: "87 л.с." }, { label: "Гусеница", value: "3923 × 609 × 32 мм" }, { label: "Посадочных мест", value: "2" }],
   }),
 ];
 

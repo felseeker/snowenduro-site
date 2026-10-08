@@ -2,23 +2,28 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, ArrowUpRight, Check, FileCheck2, MapPin, ShieldCheck, Truck } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { FaqList, type FaqItem } from "@/components/FaqList";
 import { FinalCTA } from "@/components/FinalCTA";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductGallery } from "@/components/ProductGallery";
 import { SectionHeading } from "@/components/SectionHeading";
-import { displayPrice, formatPrice, getProduct, priceNote, products } from "@/data/products";
+import { displayPrice, getProduct, priceNote, products, type Product, type ProductSpec } from "@/data/products";
 
 type ProductPageProps = { params: Promise<{ slug: string }> };
 
-const productFaq: FaqItem[] = [
-  { question: "Цена на странице окончательная?", answer: "Это цена опубликованного предложения. Перед оформлением нужно повторно проверить наличие, комплектацию, доставку и итоговую стоимость." },
-  { question: "Модель точно есть в наличии?", answer: "Статус предложения может измениться. Фактическое наличие и срок поставки нужно подтвердить до заказа." },
-  { question: "На фотографиях именно эта модель?", answer: "Фотографии относятся к модели. Цвет и доступную комплектацию конкретной поставки следует подтвердить отдельно." },
-  { question: "Какие документы идут с техникой?", answer: "Состав документов зависит от конкретного предложения. Его нужно согласовать до оплаты." },
-  { question: "Сколько займёт доставка?", answer: "Срок зависит от наличия, маршрута, оформления и города получения. Его можно оценить после подтверждения этих условий." },
-];
+function isCustomerFacingSpec(spec: ProductSpec) {
+  return !/(постав|экспорт|цена|налич|документ|уточн|подтверд|сверить|провер|состояни|предложени|совместимость)/i.test(`${spec.label} ${spec.value}`);
+}
+
+function productFaq(item: Product): FaqItem[] {
+  const limit = item.summary.match(/(?:Ограничение|Особенность):\s*(.+)$/)?.[1] ?? "Сопоставьте характеристики с маршрутом и условиями езды.";
+  return [
+    { question: `В чём сильная сторона ${item.name}?`, answer: item.summary.split(/(?:Ограничение|Особенность):/)[0].replace(/^Плюсы:\s*/, "") },
+    { question: "Что учитывать при выборе?", answer: limit },
+    { question: "Какие параметры важны на снегу?", answer: "Смотрите на мощность двигателя, длину и ширину гусеницы, высоту грунтозацепа и количество посадочных мест. Они определяют тягу, плавучесть и сценарий использования." },
+  ];
+}
 
 export function generateStaticParams() {
   return products.map((item) => ({ slug: item.slug }));
@@ -29,7 +34,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const item = getProduct(slug);
   if (!item) return { title: "Зимняя техника под заказ" };
   const canonical = `/catalog/${item.slug}`;
-  const description = `${item.summary} ${displayPrice(item.price)}. Поставка и актуальность проверяются перед оформлением.`;
+  const description = `${item.summary} ${displayPrice(item.price)}.`;
   return {
     title: `${item.name} — цена и характеристики`,
     description,
@@ -46,13 +51,8 @@ export default async function SnowmobileProductPage({ params }: ProductPageProps
   const similar = products.filter((other) => other.category === item.category && other.slug !== item.slug).slice(0, 4);
   const categoryHref = item.category === "snowbike" ? "/snowbike" : "/catalog";
   const categoryLabel = item.category === "snowbike" ? "Snowbike" : "Снегоходы";
-  const highlights = [
-    { label: "Двигатель", value: item.engine },
-    { label: "Мощность", value: item.horsepower },
-    { label: "Гусеница", value: item.track },
-    { label: "Посадка", value: item.seats },
-    { label: "Статус", value: item.availability },
-  ];
+  const technicalSpecs = item.specs.filter(isCustomerFacingSpec);
+  const highlights = technicalSpecs.slice(0, 5);
 
   return (
     <>
@@ -65,48 +65,40 @@ export default async function SnowmobileProductPage({ params }: ProductPageProps
             <h1>{item.name}<br /><em>под заказ.</em></h1>
             <p>{item.summary}</p>
             <div className="product-summary__tags">{item.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-            <div className="product-summary__price"><span>{item.price === null ? "Стоимость" : "Рыночный ориентир"}</span><strong>{displayPrice(item.price)}</strong><small>{item.price === null ? "Наличие, экспортное исполнение и комплектация — после подтверждения поставщика." : priceNote}</small></div>
+            <div className="product-summary__price"><span>Цена</span><strong>{displayPrice(item.price)}</strong>{item.price !== null && <small>{priceNote}</small>}</div>
             <div className="product-summary__actions"><Link className="button button--primary" href="/about#contacts">Связаться с менеджерами <ArrowRight size={16} /></Link><Link className="button button--outline" href="/delivery">Условия заказа</Link></div>
-            <div className="product-summary__benefits"><span><ShieldCheck size={16} />Наличие перепроверить</span><span><Truck size={16} />Маршрут согласовать</span><span><FileCheck2 size={16} />Условия до оплаты</span></div>
           </div>
         </div>
       </section>
 
-      <section className="spec-strip page-shell" aria-label="Ключевые параметры предложения">
+      <section className="spec-strip page-shell" aria-label="Ключевые параметры модели">
         {highlights.map((spec, index) => <div className="spec-strip__item" key={spec.label}><span>0{index + 1}</span><strong>{spec.value}</strong><small>{spec.label}</small></div>)}
       </section>
 
       <section className="section section--alternate">
         <div className="page-shell product-info-grid">
           <div className={`product-story-image${item.imageTreatment === "cutout" ? " product-story-image--cutout" : ""}`}><Image src={item.image} alt={item.imageAlt} fill sizes="(max-width: 800px) 100vw, 50vw" /><div><span className="eyebrow">{item.eyebrow}</span><h2>{item.useCase === "Глубокий снег" ? <>Для рыхлого<br />зимнего снега.</> : <>Для смешанных<br />зимних маршрутов.</>}</h2></div></div>
-            <div className="product-info-copy"><span className="eyebrow">О модели</span><h2>{item.name}<br /><em>{displayPrice(item.price)}</em></h2><p>{item.summary} Параметры, состояние, документы и условия поставки проверяются до оплаты.</p><div className="product-check-list"><span><Check size={15} /> Модель сверяется с предложением</span><span><Check size={15} /> Наличие и состояние проверяются</span><span><Check size={15} /> Итоговая стоимость согласуется до оплаты</span></div><Link className="text-link" href={categoryHref}>Другие модели категории <ArrowUpRight size={15} /></Link></div>
+            <div className="product-info-copy"><span className="eyebrow">Плюсы и особенности</span><h2>Характер<br /><em>{item.name}.</em></h2><p>{item.summary}</p><Link className="text-link" href={categoryHref}>Другие модели категории <ArrowUpRight size={15} /></Link></div>
         </div>
       </section>
 
       <section className="section page-shell">
-          <SectionHeading eyebrow="Параметры предложения" title="Что известно о модели" description="Здесь указаны только подтверждённые данные. Остальные параметры нужно сверить по конкретному предложению перед заказом." />
+          <SectionHeading eyebrow="Характеристики модели" title="Технические данные" description="Основные параметры, которые помогают сравнить технику и подобрать её под свой маршрут." />
         <div className="spec-card">
-          <div className="spec-card__heading"><div><span className="eyebrow">{item.name}</span><h3>Технические характеристики</h3></div><span className="spec-status"><span className="status-dot" />Нужна проверка перед заказом</span></div>
-          <div className="spec-list">{item.specs.map((spec, index) => <div className="spec-row" key={spec.label}><span className="spec-row__number">0{index + 1}</span><span>{spec.label}</span><strong>{spec.value}</strong></div>)}</div>
-        </div>
-      </section>
-
-      <section className="section section--alternate">
-        <div className="page-shell">
-          <div className="section-heading section-heading--split"><div className="section-heading__copy"><span className="eyebrow"><span className="eyebrow__pip" />Доставка под заказ</span><h2>Маршрут зависит<br />от предложения.</h2><p>Точку отправления, оформление и срок нужно согласовать для конкретной модели и города получения.</p></div><Link className="text-link section-heading__link" href="/delivery">Все этапы и условия <ArrowUpRight size={16} /></Link></div>
-          <div className="delivery-steps-mini"><div><span>01 / Модель</span><h3>Сверить предложение</h3><p>Повторно проверить комплектацию и наличие.</p></div><div><span>02 / Условия</span><h3>Узнать итоговую цену</h3><p>Согласовать состав и стоимость до оплаты.</p></div><div><span>03 / Доставка</span><h3>Уточнить маршрут</h3><p>Выбрать перевозку и точку получения.</p></div><div><span>04 / Получение</span><h3>Проверить документы</h3><p>Сверить документы и порядок передачи.</p></div></div>
+          <div className="spec-card__heading"><div><span className="eyebrow">{item.name}</span><h3>Характеристики</h3></div></div>
+          <div className="spec-list">{technicalSpecs.map((spec, index) => <div className="spec-row" key={spec.label}><span className="spec-row__number">0{index + 1}</span><span>{spec.label}</span><strong>{spec.value}</strong></div>)}</div>
         </div>
       </section>
 
       <section className="section page-shell">
-        <div className="faq-layout"><div><SectionHeading eyebrow="Перед заказом" title="Частые вопросы" description="Цена и условия на странице относятся к опубликованному предложению." /><span className="faq-meta"><MapPin size={14} />Маршрут согласуется отдельно</span></div><FaqList items={productFaq} /></div>
+        <div className="faq-layout"><div><SectionHeading eyebrow="О модели" title="Особенности и выбор" description="Коротко о сильных сторонах и параметрах, которые влияют на поведение техники на снегу." /></div><FaqList items={productFaq(item)} /></div>
       </section>
 
       <section className="section section--alternate">
         <div className="page-shell"><SectionHeading eyebrow="Другие модели" title="Сравните варианты" link={{ href: categoryHref, label: "Вся категория" }} /><div className="related-products">{similar.map((other, index) => <ProductCard item={other} index={index} compact key={other.slug} />)}</div></div>
       </section>
 
-      <FinalCTA eyebrow="Связаться с менеджерами" title="Сверьте предложение до оплаты." description="Менеджеры помогут запросить актуальную версию, состояние, комплектность и документы. Форма пока демонстрационная и ничего не отправляет." topic={item.category} />
+      <FinalCTA eyebrow="Подбор техники" title="Выберите модель под свой маршрут." description="Сравните характер техники, мощность и гусеницу. Менеджеры подскажут, какая конфигурация лучше подходит под ваши задачи." topic={item.category} />
     </>
   );
 }

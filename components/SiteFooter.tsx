@@ -35,7 +35,6 @@ export function SiteFooter() {
       </div>
       <div className="site-footer__bottom page-shell">
         <span>© {new Date().getFullYear()} SnowEnduro</span>
-        <span className="site-footer__ai-note">Часть визуальных материалов сайта создана с помощью ИИ. Фото конкретной техники и её комплектацию подтвердим у поставщика до заказа.</span>
         <Link href="/privacy">Политика конфиденциальности</Link>
       </div>
     </footer>
