@@ -42,7 +42,7 @@ export default function HomePage() {
           <div className="hero__copy">
             <span className="eyebrow"><span className="eyebrow__pip" />Техника для зимних маршрутов</span>
             <h1>Зима начинается<br />там, где заканчивается <em>дорога.</em></h1>
-            <p>Snowbike-комплекты для эндуро и снегоходы AODES под заказ из Китая. Сравните варианты и проверьте условия до оформления.</p>
+            <p>Snowbike-комплекты для эндуро и снегоходы из Китая под заказ. Сравните варианты и проверьте условия до оформления.</p>
             <div className="hero__actions">
               <Link className="button button--primary" href="/catalog">Выбрать направление <ArrowRight size={17} /></Link>
               <Link className="button button--ghost" href="/snowbike"><span className="play-mark"><ArrowUpRight size={14} /></span>Открыть Snowbike</Link>
@@ -87,9 +87,9 @@ export default function HomePage() {
       </section>
 
       <section className="section page-shell">
-        <SectionHeading eyebrow="Текущие предложения" title="Снегоход под вашу задачу" description="Три модели AODES Snowcross с опубликованными ценами. Перед заказом заново подтвердим наличие, параметры и итоговую стоимость." link={{ href: "/catalog", label: "Все модели" }} />
+        <SectionHeading eyebrow="Подборка моделей" title="Снегоход под вашу задачу" description="В каталоге — компактные и полноразмерные модели WOIDEAL, TaoMotor и AODES, а также варианты с пробегом. Перед заказом проверим наличие, параметры и итоговую стоимость." link={{ href: "/catalog", label: "Все модели" }} />
         <div className="horizontal-rail">
-          {snowmobiles.map((item, index) => <ProductCard key={item.slug} item={item} index={index} compact />)}
+          {snowmobiles.slice(0, 4).map((item, index) => <ProductCard key={item.slug} item={item} index={index} compact />)}
         </div>
         <div className="rail-hint"><span>Смахните, чтобы посмотреть</span><span className="rail-hint__line" /></div>
       </section>
@@ -128,7 +128,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <FinalCTA eyebrow="Заявки временно не принимаются" title="Выберите свой зимний маршрут." description="Сравните модели и условия поставки. Форма ниже только проверяет заполнение и не отправляет данные." />
+      <FinalCTA eyebrow="Контакты менеджеров" title="Выберите свой зимний маршрут." description="Сравните модели и условия поставки. Форма ниже демонстрационная, а связаться можно напрямую по телефону или в Telegram." />
     </>
   );
 }

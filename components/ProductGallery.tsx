@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, Expand } from "lucide-react";
 
-type GalleryImage = { src: string; alt: string; label: string };
+type GalleryImage = { src: string; alt: string; label: string; treatment?: "cutout" };
 
 export function ProductGallery({ images }: { images: GalleryImage[] }) {
   const [active, setActive] = useState(0);
@@ -16,7 +16,7 @@ export function ProductGallery({ images }: { images: GalleryImage[] }) {
 
   return (
     <div className="product-gallery">
-      <div className="product-gallery__main">
+      <div className={`product-gallery__main${current.treatment === "cutout" ? " product-gallery__main--cutout" : ""}`}>
         <Image src={current.src} alt={current.alt} fill loading="eager" sizes="(max-width: 900px) 100vw, 62vw" />
         <span className="product-gallery__label">{current.label}</span>
         <div className="product-gallery__controls">

@@ -2,25 +2,25 @@
 
 import { useMemo, useState } from "react";
 import { ArrowLeftRight, Check, Search, X } from "lucide-react";
-import { formatPrice, snowmobiles, type SnowmobileCategory } from "@/data/products";
+import { displayPrice, snowmobiles, type Product } from "@/data/products";
 import { ProductCard } from "@/components/ProductCard";
 
 const filters = [
   { value: "all", label: "Все модели" },
-  { value: "800", label: "800 см³" },
-  { value: "900", label: "900 см³" },
-  { value: "Глубокий снег", label: "Рыхлый снег" },
-  { value: "Смешанные маршруты", label: "Смешанные маршруты" },
+  { value: "priced", label: "Есть ориентир цены" },
+  { value: "request", label: "Цена по запросу" },
+  { value: "used", label: "Остатки / б/у" },
 ];
 
-const comparisonRows: { label: string; value: (item: SnowmobileCategory) => string }[] = [
+const comparisonRows: { label: string; value: (item: Product) => string }[] = [
   { label: "Назначение", value: (item) => item.purpose },
   { label: "Двигатель", value: (item) => item.engine },
   { label: "Мощность", value: (item) => item.horsepower },
   { label: "Гусеница", value: (item) => item.track },
   { label: "Посадочных мест", value: (item) => item.seats },
   { label: "Предложение", value: (item) => item.availability },
-  { label: "Цена", value: (item) => formatPrice(item.price) },
+  { label: "Цена", value: (item) => displayPrice(item.price) },
+  { label: "Формат поставки", value: (item) => item.availability },
 ];
 
 function modelWord(count: number) {
@@ -40,8 +40,9 @@ export function CatalogExplorer() {
 
   const shown = useMemo(() => snowmobiles.filter((item) => {
     const matchesFilter = filter === "all"
-      || item.slug.includes(`-${filter}-`)
-      || item.useCase === filter;
+      || (filter === "priced" && item.price !== null)
+      || (filter === "request" && item.price === null)
+      || (filter === "used" && item.offerType === "new-or-used");
     const normalizedQuery = query.trim().toLocaleLowerCase("ru-RU");
     const searchable = `${item.name} ${item.eyebrow} ${item.summary} ${item.tags.join(" ")} ${item.purpose}`.toLocaleLowerCase("ru-RU");
     return matchesFilter && (!normalizedQuery || searchable.includes(normalizedQuery));
@@ -56,7 +57,7 @@ export function CatalogExplorer() {
       return;
     }
     if (selected.length >= 3) {
-      setCompareNote("Для сравнения можно выбрать все три модели.");
+      setCompareNote("В сравнении могут быть не более трёх моделей.");
       return;
     }
     setSelected([...selected, slug]);
@@ -95,7 +96,7 @@ export function CatalogExplorer() {
       {selectedItems.length > 0 && (
         <section className="compare-panel" aria-labelledby="compare-title">
           <div className="compare-panel__heading">
-            <div><span className="eyebrow">Сравнение</span><h3 id="compare-title">Три модели — понятные различия</h3></div>
+            <div><span className="eyebrow">Сравнение</span><h3 id="compare-title">Параметры и статус поставки</h3></div>
             <button type="button" className="text-link" onClick={() => setSelected([])}>Очистить <X size={15} /></button>
           </div>
           <div className="compare-table-wrap">

@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, FileCheck2, MapPin, MessageCircle, PackageSearch, ShieldCheck, Truck } from "lucide-react";
+import { ArrowRight, ArrowUpRight, FileCheck2, MapPin, MessageCircle, PackageSearch, Phone, ShieldCheck, Truck } from "lucide-react";
 import { FinalCTA } from "@/components/FinalCTA";
 import { HeroVideo } from "@/components/HeroVideo";
 import { RouteMap } from "@/components/RouteMap";
 import { SectionHeading } from "@/components/SectionHeading";
-import { getTelegramHref, site } from "@/data/site";
+import { managers } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Подбор техники и контакты",
-  description: "Направления SnowEnduro: Snowbike-комплекты для эндуро и снегоходы AODES под заказ. Сравнение предложений и порядок уточнения поставки.",
+  description: "Направления SnowEnduro: Snowbike-комплекты для эндуро и китайские снегоходы под заказ. Контакты менеджеров и порядок уточнения поставки.",
   alternates: { canonical: "/about" },
-  openGraph: { title: "Подбор техники и контакты", description: "Snowbike-комплекты для эндуро и снегоходы AODES под заказ.", url: "/about" },
+  openGraph: { title: "Подбор техники и контакты", description: "Snowbike-комплекты для эндуро и китайские снегоходы под заказ.", url: "/about" },
 };
 
 const beforeOrder = [
@@ -23,11 +23,6 @@ const beforeOrder = [
 ];
 
 export default function AboutPage() {
-  const telegramReady = Boolean(site.telegramUrl.trim());
-  const phoneReady = Boolean(site.phone.trim());
-  const emailReady = Boolean(site.email.trim());
-  const hasContact = telegramReady || phoneReady || emailReady;
-
   return (
     <>
       <section className="page-hero page-hero--about">
@@ -37,14 +32,14 @@ export default function AboutPage() {
           <div className="breadcrumbs"><Link href="/">Главная</Link><span>/</span><span>Контакты</span></div>
           <span className="eyebrow"><span className="eyebrow__pip" />SnowEnduro / Зимняя техника</span>
           <h1>Техника для<br /><em>зимних маршрутов.</em></h1>
-          <p>На сайте собраны два направления: Snowbike-комплекты для эндуро и конкретные модели снегоходов AODES под заказ.</p>
+          <p>На сайте собраны два направления: Snowbike-комплекты для эндуро и модели снегоходов под заказ из Китая.</p>
           <div className="page-hero__actions"><Link className="button button--primary" href="/catalog">Каталог снегоходов <ArrowRight size={17} /></Link><Link className="button button--ghost" href="/delivery"><span className="play-mark"><Truck size={14} /></span>Порядок заказа</Link></div>
           <div className="page-hero__facts"><span><ShieldCheck size={17} />Проверка предложения</span><span><FileCheck2 size={17} />Условия до оформления</span><span><MapPin size={17} />Маршрут по согласованию</span></div>
         </div>
       </section>
 
       <section className="section page-shell">
-        <div className="about-intro-grid"><div><span className="eyebrow"><span className="eyebrow__pip" />О проекте</span><h2>Два направления.<br /><em>Один зимний сезон.</em></h2></div><div><p className="about-intro-grid__lead">SnowEnduro — каталог для выбора техники под зимние маршруты.</p><p>В карточках снегоходов указаны параметры и цены опубликованных предложений. До заказа их нужно заново проверить: наличие, комплектацию, документы, доставку и итоговую стоимость.</p><Link className="text-link" href="/catalog">Сравнить снегоходы <ArrowUpRight size={15} /></Link></div></div>
+        <div className="about-intro-grid"><div><span className="eyebrow"><span className="eyebrow__pip" />О проекте</span><h2>Два направления.<br /><em>Один зимний сезон.</em></h2></div><div><p className="about-intro-grid__lead">SnowEnduro — каталог для выбора техники под зимние маршруты.</p><p>В карточках указаны ориентиры цены и подтверждённые параметры. Наличие, комплектацию, документы, состояние и доставку нужно сверить для конкретного предложения.</p><Link className="text-link" href="/catalog">Сравнить снегоходы <ArrowUpRight size={15} /></Link></div></div>
         <div className="about-image-feature"><Image src="/media/snowmobile-rider.jpg" alt="Снегоход на заснеженном зимнем маршруте" fill sizes="100vw" /><div className="about-image-feature__veil" /><div className="about-image-feature__copy"><span className="eyebrow">Зимние маршруты / SnowEnduro</span><h2>Выбор начинается<br />с вашей задачи.</h2><p>Эндуро со Snowbike-комплектом или снегоход под заказ.</p></div><span className="about-image-feature__meta">Snowbike · снегоходы · доставка</span></div>
       </section>
 
@@ -62,12 +57,9 @@ export default function AboutPage() {
 
       <section className="section section--alternate" id="contacts">
         <div className="page-shell">
-          <SectionHeading eyebrow="Контакты" title={hasContact ? "Выберите удобный канал" : "Канал связи пока не подключён"} description={hasContact ? "Контакты, доступные сейчас." : "Пока не выбран канал для приёма заявок. Форма ниже только проверяет поля и никуда не отправляет данные."} />
-          <div className="contact-grid">
-            {telegramReady && <article className="contact-card"><span className="contact-card__icon"><MessageCircle size={19} /></span><span className="eyebrow">Мессенджер</span><h3>Telegram</h3><p>Открыть чат для обсуждения выбора техники.</p><a className="button button--outline" href={getTelegramHref()}>Открыть Telegram <ArrowUpRight size={15} /></a></article>}
-            {phoneReady && <article className="contact-card"><span className="contact-card__icon"><MessageCircle size={19} /></span><span className="eyebrow">Телефон</span><h3>{site.phone}</h3><p>Позвонить по вопросу модели и заказа.</p><a className="text-link" href={`tel:${site.phone.replace(/[^+\d]/g, "")}`}>Позвонить <ArrowUpRight size={15} /></a></article>}
-            {emailReady && <article className="contact-card"><span className="contact-card__icon"><FileCheck2 size={19} /></span><span className="eyebrow">Электронная почта</span><h3>{site.email}</h3><p>Написать по выбору техники и условиям заказа.</p><a className="text-link" href={`mailto:${site.email}`}>Написать <ArrowUpRight size={15} /></a></article>}
-            {!hasContact && <article className="contact-card contact-card--empty"><span className="contact-card__icon"><MessageCircle size={19} /></span><span className="eyebrow">Временно</span><h3>Заявки не принимаются</h3><p>Демонстрационная форма позволяет посмотреть обязательные поля. После проверки данные не сохраняются и сообщение не отправляется.</p><a className="button button--outline" href="#request">Посмотреть форму <ArrowUpRight size={15} /></a></article>}
+          <SectionHeading eyebrow="Контакты" title="Связаться с менеджерами" description="Уточнить наличие, экспортную версию, цену, состояние техники и условия доставки." />
+          <div className="contact-grid contact-grid--managers">
+            {managers.map((manager) => <article className="contact-card" key={manager.name}><span className="contact-card__icon"><MessageCircle size={19} /></span><span className="eyebrow">Менеджер</span><h3>{manager.name}</h3><p>Подбор модели и вопросы по конкретному предложению.</p><a className="button button--outline" href={manager.phoneHref}><Phone size={15} /> {manager.phone}</a><a className="text-link" href={manager.telegramHref} target="_blank" rel="noreferrer">Telegram {manager.telegram} <ArrowUpRight size={15} /></a></article>)}
           </div>
         </div>
       </section>
@@ -84,7 +76,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <FinalCTA eyebrow="Запросы временно отключены" title="Сначала посмотрите варианты." description="Форма ниже демонстрационная: она проверит заполнение, но не отправит заявку и не сохранит контактные данные." />
+      <FinalCTA eyebrow="Контакты менеджеров" title="Выберите технику под свой маршрут." description="Форма на сайте пока демонстрационная. Связаться по телефону или в Telegram можно напрямую." />
     </>
   );
 }

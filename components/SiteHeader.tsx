@@ -36,7 +36,7 @@ export function SiteHeader() {
             })}
           </nav>
           <div className="site-header__actions">
-            <Link className="button button--small button--outline header-cta" href="/#request">
+            <Link className="button button--small button--outline header-cta" href="/about#contacts">
               Подобрать технику <ArrowUpRight size={15} strokeWidth={1.8} />
             </Link>
             <button
@@ -61,7 +61,7 @@ export function SiteHeader() {
               <ArrowUpRight size={17} strokeWidth={1.6} />
             </Link>
           ))}
-          <Link className="button button--primary mobile-nav__cta" href="/#request" onClick={closeMenu} tabIndex={menuOpen ? 0 : -1}>
+          <Link className="button button--primary mobile-nav__cta" href="/about#contacts" onClick={closeMenu} tabIndex={menuOpen ? 0 : -1}>
             Подобрать технику <ArrowUpRight size={16} />
           </Link>
         </nav>

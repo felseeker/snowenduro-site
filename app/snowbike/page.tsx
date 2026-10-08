@@ -5,8 +5,10 @@ import { ArrowDown, ArrowRight, ArrowUpRight, Bike, Check, MoveUpRight, Snowflak
 import { FaqList, type FaqItem } from "@/components/FaqList";
 import { FinalCTA } from "@/components/FinalCTA";
 import { LeadForm } from "@/components/LeadForm";
+import { ProductCard } from "@/components/ProductCard";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SnowbikeComparison } from "@/components/SnowbikeComparison";
+import { snowbikeKits } from "@/data/products";
 
 export const metadata: Metadata = {
   title: "Snowbike-комплекты для эндуро",
@@ -92,6 +94,15 @@ export default function SnowbikePage() {
         </div>
       </section>
 
+      <section className="section section--alternate">
+        <div className="page-shell">
+          <SectionHeading eyebrow="Каталог Snowbike" title="Пять комплектов под запрос" description="Цены — рыночные ориентиры. Наличие, состав и совместимость проверим для вашего мотоцикла перед заказом." />
+          <div className="horizontal-rail">
+            {snowbikeKits.map((item, index) => <ProductCard item={item} index={index} compact key={item.slug} />)}
+          </div>
+        </div>
+      </section>
+
       <section className="section section--alternate" id="compatibility">
         <div className="page-shell">
           <div className="compatibility-panel">
@@ -119,7 +130,7 @@ export default function SnowbikePage() {
         <div className="faq-layout"><div><SectionHeading eyebrow="Частые вопросы" title="До первого снега" description="Собрали ответы о совместимости, составе комплекта и заказе." /><div className="faq-meta"><span className="status-dot" />Ответ зависит от модели мотоцикла</div></div><FaqList items={faqs} /></div>
       </section>
 
-      <FinalCTA eyebrow="Форма проверки пока отключена" title="Узнайте, какие данные нужны." description="Можно проверить заполнение формы совместимости. Данные не отправляются, поэтому проверка модели сейчас не выполняется." topic="snowbike" mode="compatibility" />
+      <FinalCTA eyebrow="Контакты менеджеров" title="Проверьте совместимость до заказа." description="Сразу сообщите марку, модель и год эндуро. Форма на сайте пока демонстрационная; связаться можно напрямую по телефону или в Telegram." topic="snowbike" mode="compatibility" />
     </>
   );
 }

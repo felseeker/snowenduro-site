@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ArrowUpRight, Mail, MessageCircle, Phone } from "lucide-react";
+import { ArrowUpRight, MessageCircle, Phone } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
-import { getTelegramHref, site } from "@/data/site";
+import { managers, site } from "@/data/site";
 
 const footerLinks = [
   { label: "Snowbike", href: "/snowbike" },
@@ -11,15 +11,12 @@ const footerLinks = [
 ];
 
 export function SiteFooter() {
-  const telegramHref = getTelegramHref();
-  const configuredTelegram = Boolean(site.telegramUrl.trim());
-
   return (
     <footer className="site-footer">
       <div className="site-footer__main page-shell">
         <div className="site-footer__brand">
           <BrandMark />
-          <p>Snowbike-комплекты, модели снегоходов AODES и информация о заказе зимней техники.</p>
+          <p>Snowbike-комплекты для эндуро и снегоходы под заказ из Китая.</p>
           <span className="site-footer__location">{site.location}</span>
         </div>
         <div className="site-footer__links">
@@ -29,11 +26,11 @@ export function SiteFooter() {
         </div>
         <div className="site-footer__contact">
           <span className="eyebrow">Связаться</span>
-          <a href={configuredTelegram ? telegramHref : "/#request"}>
-            <MessageCircle size={15} /> {configuredTelegram ? "Telegram" : "Демонстрационная форма"} <ArrowUpRight size={14} />
-          </a>
-          {site.phone.trim() && <a href={`tel:${site.phone.replace(/[^+\d]/g, "")}`}><Phone size={15} /> {site.phone}</a>}
-          {site.email.trim() && <a href={`mailto:${site.email}`}><Mail size={15} /> {site.email}</a>}
+          {managers.map((manager) => <div className="site-footer__manager" key={manager.name}>
+            <strong>{manager.name}</strong>
+            <a href={manager.phoneHref}><Phone size={15} /> {manager.phone}</a>
+            <a href={manager.telegramHref} target="_blank" rel="noreferrer"><MessageCircle size={15} /> {manager.telegram} <ArrowUpRight size={14} /></a>
+          </div>)}
         </div>
       </div>
       <div className="site-footer__bottom page-shell">
