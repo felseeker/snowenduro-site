@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, FileLock2, ShieldCheck } from "lucide-react";
-import { managers } from "@/data/site";
 
-const policyDescription = "Как обрабатываются данные посетителей SnowEnduro, что собирают Яндекс.Метрика и GitHub Pages и как связаться по вопросам конфиденциальности.";
+const policyDescription = "Как обрабатываются данные посетителей SnowEnduro и какие сведения получают Яндекс.Метрика и GitHub Pages.";
 
 export const metadata: Metadata = {
   title: "Политика обработки персональных данных",
@@ -14,8 +13,6 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPage() {
-  const privacyContact = managers[0];
-
   return (
     <section className="legal-page page-shell">
       <div className="breadcrumbs"><Link href="/">Главная</Link><span>/</span><span>Конфиденциальность</span></div>
@@ -35,7 +32,7 @@ export default function PrivacyPage() {
         <section>
           <span className="eyebrow">01 / Оператор</span>
           <h2>Кто отвечает за сайт</h2>
-          <p>Оператор сайта SnowEnduro — физическое лицо, администрирующее snowenduro.ru. Организация или индивидуальный предприниматель на сайте не заявлены. ФИО и почтовый адрес оператора публично не указаны. По вопросам обработки данных можно написать в <a href={privacyContact.telegramHref} target="_blank" rel="noreferrer">Telegram {privacyContact.telegram}</a> или позвонить по номеру <a href={privacyContact.phoneHref}>{privacyContact.phone}</a>.</p>
+          <p>Оператор сайта SnowEnduro — физическое лицо, администрирующее snowenduro.ru. На сайте не заявлено юридическое лицо или индивидуальный предприниматель. Каналы для обращений по вопросам обработки данных указаны в разделе <Link href="/about/#contacts">«Контакты»</Link>.</p>
         </section>
 
         <section>
@@ -53,7 +50,7 @@ export default function PrivacyPage() {
         <section>
           <span className="eyebrow">04 / Формы и обращения</span>
           <h2>Формы не передают введённые данные</h2>
-          <p>Поля формы находятся в открытой странице браузера. После отправки сайт показывает информационное сообщение: сервер и база данных не подключены, поэтому значения формы не передаются оператору и не сохраняются сайтом. Для связи используйте телефон или Telegram — переход по ссылке откроет соответствующее приложение или сервис.</p>
+          <p>Поля формы находятся в открытой странице браузера. После отправки сайт показывает информационное сообщение: сервер и база данных не подключены, поэтому значения формы не передаются оператору и не сохраняются сайтом. Если вы самостоятельно связываетесь с менеджером по каналам из раздела <Link href="/about/#contacts">«Контакты»</Link>, содержание переписки или звонка обрабатывается отдельно от форм сайта.</p>
         </section>
 
         <section>
@@ -65,7 +62,7 @@ export default function PrivacyPage() {
         <section>
           <span className="eyebrow">06 / Запросы</span>
           <h2>Как связаться по вопросам данных</h2>
-          <p>Вы можете обратиться по вопросам доступа к данным, их исправления или удаления, а также прекращения обработки в пределах, предусмотренных законом и правилами соответствующего сервиса. Напишите на <a href={privacyContact.telegramHref} target="_blank" rel="noreferrer">{privacyContact.telegram}</a> и укажите, что обращение касается персональных данных сайта. Если запрос относится к данным, которые обрабатывает GitHub или Яндекс, дополнительно используйте каналы связи этих сервисов.</p>
+          <p>По вопросам доступа к данным, их исправления или удаления, а также прекращения обработки в пределах, предусмотренных законом и правилами соответствующего сервиса, направьте запрос через каналы, указанные в разделе <Link href="/about/#contacts">«Контакты»</Link>. Если запрос относится к данным, которые обрабатывает GitHub или Яндекс, используйте также каналы связи этих сервисов.</p>
         </section>
       </div>
 
