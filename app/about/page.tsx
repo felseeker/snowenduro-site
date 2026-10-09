@@ -11,7 +11,7 @@ import { managers } from "@/data/site";
 export const metadata: Metadata = {
   title: "Подбор техники и контакты",
   description: "Направления SnowEnduro: Snowbike-комплекты для эндуро и китайские снегоходы под заказ. Контакты менеджеров и порядок уточнения поставки.",
-  alternates: { canonical: "/about" },
+  alternates: { canonical: "/about/" },
   openGraph: { title: "Подбор техники и контакты", description: "Snowbike-комплекты для эндуро и китайские снегоходы под заказ.", url: "/about" },
 };
 

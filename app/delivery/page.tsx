@@ -10,7 +10,7 @@ import { SectionHeading } from "@/components/SectionHeading";
 export const metadata: Metadata = {
   title: "Доставка снегоходов и Snowbike-комплектов",
   description: "Как устроен заказ зимней техники из Китая через Уссурийск и Владивосток. Сроки и условия подтверждаются для каждой поставки.",
-  alternates: { canonical: "/delivery" },
+  alternates: { canonical: "/delivery/" },
   openGraph: { title: "Доставка снегоходов и Snowbike-комплектов", description: "Как устроен заказ зимней техники из Китая через Уссурийск и Владивосток. Сроки и условия подтверждаются для каждой поставки.", url: "/delivery" },
 };
 

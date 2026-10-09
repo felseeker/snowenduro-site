@@ -85,9 +85,9 @@ const additionalPhotos: Partial<Record<string, Product["gallery"]>> = {
     galleryPhoto("aodes-snowcross-1000-wt-04-scene.webp", "Панель приборов AODES Snowcross 1000 WT", "Панель приборов", "scene"),
   ],
   "aodes-snowcross-1000-swt": [
-    galleryPhoto("aodes-snowcross-1000-swt-01.webp", "AODES Snowcross 1000 SWT, вид сбоку", "Общий вид", "cutout"),
-    galleryPhoto("aodes-snowcross-1000-swt-03.webp", "Передняя подвеска AODES Snowcross 1000 SWT", "Передняя подвеска"),
-    galleryPhoto("aodes-snowcross-1000-swt-04.webp", "Широкая гусеница AODES Snowcross 1000 SWT", "Широкая гусеница"),
+    galleryPhoto("aodes-snowcross-1000-swt-01-scene.webp", "AODES Snowcross 1000 SWT, вид сбоку на снегу", "Общий вид"),
+    galleryPhoto("aodes-snowcross-1000-swt-03-scene.webp", "Руль и приборная панель AODES Snowcross 1000 SWT", "Кокпит"),
+    galleryPhoto("aodes-snowcross-1000-swt-04-scene.webp", "Передняя подвеска AODES Snowcross 1000 SWT на снегу", "Передняя подвеска"),
   ],
 };
 
@@ -99,7 +99,7 @@ export const snowbikeKits: Product[] = [
   product({
     slug: "htld-120sport-65", name: "HTLD-120Sport-65", category: "snowbike", brand: "HTLD",
     eyebrow: "HTLD / 120 Sport", purpose: "двухрычажная подвеска", summary: "Плюсы: двухрычажная подвеска и 65-мм зацеп для активной езды по глубокому снегу. Ограничение: зимний комплект меняет характер управления базового эндуро.",
-    image: "/media/snowbike-ai-hero.jpg", imageAlt: "Эндуро, подготовленный для зимней езды на гусеничном комплекте",
+    image: "/media/products/snowbike/htld-120sport-65.webp", imageAlt: "Гусеничный комплект HTLD-120Sport-65 с передней лыжей",
     tags: ["65 мм", "Двухрычажная схема", "Для эндуро"], price: 145000, useCase: "Sport",
     engine: "Не применимо", horsepower: "Зависит от базового эндуро", track: "Гусеничный модуль; точные параметры уточняются", seats: "1 на базе мотоцикла",
     specs: [{ label: "Конфигурация", value: "Задний гусеничный модуль + передняя лыжа" }, { label: "Серия", value: "120 Sport" }, { label: "Высота зацепа", value: "65 мм" }, { label: "Подвеска модуля", value: "Двухрычажная" }],
@@ -107,7 +107,7 @@ export const snowbikeKits: Product[] = [
   product({
     slug: "htld-120extreme-65", name: "HTLD-120Extreme-65", category: "snowbike", brand: "HTLD",
     eyebrow: "HTLD / 120 Extreme", purpose: "однорычажная подвеска", summary: "Плюсы: 65-мм зацеп и однорычажная схема для рыхлого снега. Ограничение: зимняя конфигурация рассчитана на снег, а не на твёрдое покрытие.",
-    image: "/media/snowbike-ai-hero.jpg", imageAlt: "Эндуро, подготовленный для зимней езды на гусеничном комплекте",
+    image: "/media/products/snowbike/htld-120extreme-65.webp", imageAlt: "Гусеничный комплект HTLD-120Extreme-65 для эндуро",
     tags: ["65 мм", "Однорычажная схема", "Для эндуро"], price: 165000, useCase: "Extreme",
     engine: "Не применимо", horsepower: "Зависит от базового эндуро", track: "Гусеничный модуль; точные параметры уточняются", seats: "1 на базе мотоцикла",
     specs: [{ label: "Конфигурация", value: "Задний гусеничный модуль + передняя лыжа" }, { label: "Серия", value: "120 Extreme" }, { label: "Высота зацепа", value: "65 мм" }, { label: "Подвеска модуля", value: "Однорычажная" }],
@@ -115,7 +115,7 @@ export const snowbikeKits: Product[] = [
   product({
     slug: "htld-129extreme-65", name: "HTLD-129Extreme-65", category: "snowbike", brand: "HTLD",
     eyebrow: "HTLD / 129 Extreme", purpose: "однорычажная подвеска", summary: "Плюсы: серия 129, 65-мм зацеп и передняя лыжа для сбалансированной езды по зимним маршрутам. Ограничение: комплект работает только в снеговой конфигурации.",
-    image: "/media/snowbike-ai-hero.jpg", imageAlt: "Эндуро, подготовленный для зимней езды на гусеничном комплекте",
+    image: "/media/products/snowbike/htld-129extreme-65.webp", imageAlt: "Гусеничный комплект HTLD-129Extreme-65 с передней лыжей",
     tags: ["65 мм", "Однорычажная схема", "Для эндуро"], price: 169000, useCase: "Extreme",
     engine: "Не применимо", horsepower: "Зависит от базового эндуро", track: "Гусеничный модуль; точные параметры уточняются", seats: "1 на базе мотоцикла",
     specs: [{ label: "Конфигурация", value: "Задний гусеничный модуль + передняя лыжа" }, { label: "Серия", value: "129 Extreme" }, { label: "Высота зацепа", value: "65 мм" }, { label: "Подвеска модуля", value: "Однорычажная" }],
@@ -123,7 +123,7 @@ export const snowbikeKits: Product[] = [
   product({
     slug: "htld-129extreme-80", name: "HTLD-129Extreme-80", category: "snowbike", brand: "HTLD",
     eyebrow: "HTLD / 129 Extreme", purpose: "для глубокого снега", summary: "Плюсы: высокий 80-мм зацеп помогает продвигаться по глубокому рыхлому снегу. Ограничение: на укатанной трассе такой высокий профиль может быть избыточен.",
-    image: "/media/snowbike-ai-hero.jpg", imageAlt: "Эндуро, подготовленный для зимней езды на гусеничном комплекте",
+    image: "/media/products/snowbike/htld-129extreme-80.webp", imageAlt: "Гусеничный комплект HTLD-129Extreme-80 для глубокого снега",
     tags: ["80 мм", "Однорычажная схема", "Для эндуро"], price: 179000, useCase: "Extreme",
     engine: "Не применимо", horsepower: "Зависит от базового эндуро", track: "Гусеничный модуль; точные параметры уточняются", seats: "1 на базе мотоцикла",
     specs: [{ label: "Конфигурация", value: "Задний гусеничный модуль + передняя лыжа" }, { label: "Серия", value: "129 Extreme" }, { label: "Высота зацепа", value: "80 мм" }, { label: "Подвеска модуля", value: "Однорычажная" }],
@@ -131,7 +131,7 @@ export const snowbikeKits: Product[] = [
   product({
     slug: "nibbi-vanguard-r-120", name: "NIBBI Vanguard R-120", category: "snowbike", brand: "NIBBI Racing",
     eyebrow: "NIBBI / Vanguard R-120", purpose: "комплект для эндуро", summary: "Плюсы: гусеница 3050 × 300 мм, 50-мм зацеп и передняя лыжа для зимней тяги. Ограничение: для летней езды потребуется вернуть колёсную конфигурацию.",
-    image: "/media/snowbike-ai-hero.jpg", imageAlt: "Эндуро, подготовленный для зимней езды на гусеничном комплекте",
+    image: "/media/products/snowbike/nibbi-vanguard-r-120.webp", imageAlt: "Комплект NIBBI Vanguard R-120 с задней гусеницей и передней лыжей",
     tags: ["3050 × 300 мм", "Зацеп 50 мм", "Передняя лыжа"], price: 280000, useCase: "Racing",
     engine: "Не применимо", horsepower: "Зависит от базового эндуро", track: "3050 × 300 мм; зацеп 50 мм", seats: "1 на базе мотоцикла",
     specs: [{ label: "Конфигурация", value: "Задний гусеничный модуль + передняя лыжа" }, { label: "Длина × ширина гусеницы", value: "3050 × 300 мм" }, { label: "Высота зацепа", value: "50 мм" }],
@@ -232,7 +232,7 @@ export const snowmobiles: Product[] = [
   }),
   product({
     slug: "aodes-snowcross-1000-swt", name: "AODES Snowcross 1000 SWT", category: "snowmobile", brand: "AODES", eyebrow: "AODES / Snowcross 1000 SWT", purpose: "широкая гусеница", summary: "Плюсы: V-twin 976 см³, около 87 л.с. и 600-мм гусеница с большой опорной площадью. Ограничение: широкому снегоходу сложнее в узком лесу и тесных колеях.",
-    image: "/media/products/aodes-snowcross-1000-swt.png", imageAlt: "Снегоход AODES Snowcross SWT из глобальной линейки производителя", imageTreatment: "cutout",
+    image: "/media/products/aodes-snowcross-1000-swt-scene.webp", imageAlt: "Снегоход AODES Snowcross 1000 SWT на заснеженном маршруте", imageTreatment: "scene",
     tags: ["976 см³", "SWT / 609 мм", "2 места"], price: 1190000, useCase: "Рыхлый снег",
     engine: "976 см³, V-twin, 4-тактный", horsepower: "87 л.с.", track: "3923 × 609 × 32 мм", seats: "2",
     specs: [{ label: "Двигатель", value: "976 см³, V-twin, 4-тактный" }, { label: "Мощность", value: "87 л.с." }, { label: "Гусеница", value: "3923 × 609 × 32 мм" }, { label: "Посадочных мест", value: "2" }],
@@ -248,6 +248,15 @@ export function formatPrice(price: number | null) {
 
 export function displayPrice(price: number | null) {
   return price === null ? "Цена по запросу" : `Ориентировочная цена: ${formatPrice(price)}`;
+}
+
+export function getProductSeoDescription(item: Product) {
+  const category = item.category === "snowbike" ? "комплект для эндуро" : "снегоход";
+  const details = item.tags.slice(0, 2).join(", ");
+  const price = item.price === null ? "цена по запросу" : `ориентир ${formatPrice(item.price)}`;
+  const description = `${item.name} — ${category}; ${details}; ${price}. Фото и характеристики SnowEnduro.`;
+  if (description.length <= 160) return description;
+  return `${description.slice(0, 157).replace(/\s+\S*$/, "").trimEnd()}…`;
 }
 
 export function getProduct(slug: string) {

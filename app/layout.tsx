@@ -28,13 +28,13 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: "SnowEnduro — зимняя техника под ваш маршрут",
     description: site.description,
-    images: [{ url: "/media/snowbike-ai-hero.jpg", width: 1672, height: 936, alt: "Snowbike на зимнем маршруте" }],
+    images: [{ url: "/media/products/snowbike/htld-120sport-65.webp", width: 1452, height: 1083, alt: "Гусеничный комплект HTLD-120Sport-65 с передней лыжей" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "SnowEnduro — зимняя техника под ваш маршрут",
     description: site.description,
-    images: ["/media/snowbike-ai-hero.jpg"],
+    images: ["/media/products/snowbike/htld-120sport-65.webp"],
   },
 };
 

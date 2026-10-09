@@ -1,28 +1,75 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, FileLock2, ShieldCheck } from "lucide-react";
+import { managers } from "@/data/site";
+
+const policyDescription = "Как обрабатываются данные посетителей SnowEnduro, что собирают Яндекс.Метрика и GitHub Pages и как связаться по вопросам конфиденциальности.";
 
 export const metadata: Metadata = {
-  title: "Конфиденциальность и форма",
-  description: "Как работает форма и какие данные собирает аналитика сайта SnowEnduro.",
-  alternates: { canonical: "/privacy" },
-  openGraph: { title: "Конфиденциальность и форма", description: "Как работает форма и какие данные собирает аналитика сайта SnowEnduro.", url: "/privacy" },
+  title: "Политика обработки персональных данных",
+  description: policyDescription,
+  alternates: { canonical: "/privacy/" },
+  openGraph: { title: "Политика обработки персональных данных", description: policyDescription, url: "/privacy/" },
   robots: { index: false, follow: true },
 };
 
 export default function PrivacyPage() {
+  const privacyContact = managers[0];
+
   return (
     <section className="legal-page page-shell">
       <div className="breadcrumbs"><Link href="/">Главная</Link><span>/</span><span>Конфиденциальность</span></div>
-      <div className="legal-page__hero"><span className="legal-page__icon"><FileLock2 size={21} /></span><span className="eyebrow">SnowEnduro / Форма</span><h1>Заявки пока<br /><em>не отправляются.</em></h1><p>Канал для приёма обращений ещё не подключён. Форма на сайте служит только для проверки обязательных полей.</p></div>
-      <div className="legal-draft-note"><ShieldCheck size={18} /><p><strong>Важно:</strong> не вводите в форму реальные контактные данные. Сайт не отправляет и не сохраняет введённые значения.</p></div>
-      <div className="legal-copy">
-        <section><span className="eyebrow">01 / Проверка полей</span><h2>Что делает форма</h2><p>Браузер проверяет, заполнены ли обязательные поля. После нажатия кнопки сайт показывает информационное сообщение. Заявка никуда не отправляется.</p></section>
-        <section><span className="eyebrow">02 / Данные</span><h2>Ничего не сохраняется</h2><p>Сайт не передаёт значения формы на сервер и не записывает их в базу. Вводимые данные остаются в открытой странице браузера и исчезают после её закрытия или обновления.</p></section>
-        <section><span className="eyebrow">03 / Аналитика сайта</span><h2>Яндекс.Метрика</h2><p>На сайте работает счётчик Яндекс.Метрики № 113551177. Он собирает просмотры страниц и технические сведения: адрес открытой страницы, источник перехода, данные о браузере и устройстве, а также технические идентификаторы и сетевые данные, включая IP-адрес, которые Яндекс использует для аналитики и определения региона. Включённые автоматические цели могут учитывать нажатия на телефонные ссылки и кнопки сайта. Вебвизор, карты кликов и скроллинга и аналитика форм отключены; сайт не передаёт события электронной торговли, а введённые в демонстрационные формы значения не отправляет. Подробнее — <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noreferrer">политика конфиденциальности Яндекса</a>.</p></section>
-        <section><span className="eyebrow">04 / Подключение заявок</span><h2>Перед началом приёма</h2><p>Когда появится канал связи и форма начнёт отправлять обращения, здесь будут указаны фактический получатель, цель сбора данных и условия их обработки.</p></section>
+      <div className="legal-page__hero">
+        <span className="legal-page__icon"><FileLock2 size={21} /></span>
+        <span className="eyebrow">SnowEnduro / Конфиденциальность</span>
+        <h1>Политика обработки<br /><em>персональных данных.</em></h1>
+        <p>Здесь описано, какие данные могут обрабатываться при посещении snowenduro.ru, для чего они нужны и как направить запрос оператору сайта.</p>
       </div>
-      <div className="legal-page__back"><Link className="text-link" href="/"><ArrowLeft size={15} />Вернуться на главную</Link><span>Обновлено: 8 октября 2026 года</span></div>
+
+      <div className="legal-draft-note">
+        <ShieldCheck size={18} />
+        <p><strong>Заявки пока не принимаются.</strong> Формы на сайте проверяют заполнение полей в браузере, но не отправляют введённые значения и не сохраняют их.</p>
+      </div>
+
+      <div className="legal-copy">
+        <section>
+          <span className="eyebrow">01 / Оператор</span>
+          <h2>Кто отвечает за сайт</h2>
+          <p>Оператор сайта SnowEnduro — физическое лицо, администрирующее snowenduro.ru. Организация или индивидуальный предприниматель на сайте не заявлены. ФИО и почтовый адрес оператора публично не указаны. По вопросам обработки данных можно написать в <a href={privacyContact.telegramHref} target="_blank" rel="noreferrer">Telegram {privacyContact.telegram}</a> или позвонить по номеру <a href={privacyContact.phoneHref}>{privacyContact.phone}</a>.</p>
+        </section>
+
+        <section>
+          <span className="eyebrow">02 / Технические данные</span>
+          <h2>Что происходит при открытии страниц</h2>
+          <p>Для доставки сайта используется GitHub Pages. GitHub сообщает, что при посещении сайта на GitHub Pages записывает и хранит IP-адрес посетителя в целях безопасности. Состав и правила обработки данных самим сервисом описаны в <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection" target="_blank" rel="noreferrer">документации GitHub Pages</a> и <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noreferrer">заявлении о конфиденциальности GitHub</a>.</p>
+        </section>
+
+        <section>
+          <span className="eyebrow">03 / Статистика</span>
+          <h2>Яндекс.Метрика</h2>
+          <p>На сайте установлен счётчик Яндекс.Метрики № 113551177. Он получает просмотры страниц и технические сведения о посещении: адрес страницы и источник перехода, данные браузера и устройства, cookie и другие технические идентификаторы, сетевые данные, включая IP-адрес. В счётчике настроены цели для отдельных действий на сайте, в том числе переходов по телефонным ссылкам и нажатий на кнопки. Вебвизор, карты кликов и скроллинга и аналитика заполнения форм отключены. Подробности — в <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noreferrer">политике конфиденциальности Яндекса</a> и <a href="https://yandex.ru/legal/metrica_termsofuse/" target="_blank" rel="noreferrer">условиях Яндекс.Метрики</a>. Настройки cookies также можно изменить в браузере; при их блокировке часть статистики может не записываться.</p>
+        </section>
+
+        <section>
+          <span className="eyebrow">04 / Формы и обращения</span>
+          <h2>Формы не передают введённые данные</h2>
+          <p>Поля формы находятся в открытой странице браузера. После отправки сайт показывает информационное сообщение: сервер и база данных не подключены, поэтому значения формы не передаются оператору и не сохраняются сайтом. Для связи используйте телефон или Telegram — переход по ссылке откроет соответствующее приложение или сервис.</p>
+        </section>
+
+        <section>
+          <span className="eyebrow">05 / Сроки и получатели</span>
+          <h2>Данные сервисов</h2>
+          <p>Оператор сайта не сохраняет значения демонстрационных форм. Технические данные, которые обрабатывают GitHub Pages и Яндекс.Метрика, хранятся и используются этими сервисами по их собственным правилам. Сайт не задаёт сроки хранения данных у провайдеров и не управляет их внутренними системами.</p>
+        </section>
+
+        <section>
+          <span className="eyebrow">06 / Запросы</span>
+          <h2>Как связаться по вопросам данных</h2>
+          <p>Вы можете обратиться по вопросам доступа к данным, их исправления или удаления, а также прекращения обработки в пределах, предусмотренных законом и правилами соответствующего сервиса. Напишите на <a href={privacyContact.telegramHref} target="_blank" rel="noreferrer">{privacyContact.telegram}</a> и укажите, что обращение касается персональных данных сайта. Если запрос относится к данным, которые обрабатывает GitHub или Яндекс, дополнительно используйте каналы связи этих сервисов.</p>
+        </section>
+      </div>
+
+      <div className="legal-page__back"><Link className="text-link" href="/"><ArrowLeft size={15} />Вернуться на главную</Link><span>Редакция от 9 октября 2026 года</span></div>
     </section>
   );
 }

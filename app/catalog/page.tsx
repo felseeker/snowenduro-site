@@ -10,7 +10,7 @@ import { formatPrice, priceNote, snowmobiles } from "@/data/products";
 export const metadata: Metadata = {
   title: "Каталог снегоходов из Китая под заказ",
   description: "Снегоходы WOIDEAL, TaoMotor и AODES для коротких поездок, зимних маршрутов и хозяйственных задач. Сравните характеристики и ориентировочные цены.",
-  alternates: { canonical: "/catalog" },
+  alternates: { canonical: "/catalog/" },
   openGraph: { title: "Каталог снегоходов под заказ", description: "Компактные и полноразмерные модели WOIDEAL, TaoMotor и AODES для разных зимних маршрутов.", url: "/catalog" },
 };
 

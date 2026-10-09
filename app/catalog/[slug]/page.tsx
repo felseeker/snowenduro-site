@@ -8,7 +8,8 @@ import { FinalCTA } from "@/components/FinalCTA";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductGallery } from "@/components/ProductGallery";
 import { SectionHeading } from "@/components/SectionHeading";
-import { displayPrice, getProduct, priceNote, products, type Product, type ProductSpec } from "@/data/products";
+import { displayPrice, getProduct, getProductSeoDescription, priceNote, products, type Product, type ProductSpec } from "@/data/products";
+import { site } from "@/data/site";
 
 type ProductPageProps = { params: Promise<{ slug: string }> };
 
@@ -33,13 +34,14 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const { slug } = await params;
   const item = getProduct(slug);
   if (!item) return { title: "Зимняя техника под заказ" };
-  const canonical = `/catalog/${item.slug}`;
-  const description = `${item.summary} ${displayPrice(item.price)}.`;
+  const canonical = `/catalog/${item.slug}/`;
+  const description = getProductSeoDescription(item);
   return {
-    title: `${item.name} — цена и характеристики`,
+    title: `${item.name} — характеристики и цена`,
     description,
     alternates: { canonical },
-    openGraph: { title: `${item.name} под заказ`, description, url: canonical, images: [{ url: item.image, alt: item.imageAlt }] },
+    openGraph: { title: `${item.name} — SnowEnduro`, description, url: canonical, images: [{ url: item.image, alt: item.imageAlt }] },
+    twitter: { card: "summary_large_image", title: `${item.name} — характеристики и цена`, description, images: [item.image] },
   };
 }
 
@@ -53,9 +55,35 @@ export default async function SnowmobileProductPage({ params }: ProductPageProps
   const categoryLabel = item.category === "snowbike" ? "Snowbike" : "Снегоходы";
   const technicalSpecs = item.specs.filter(isCustomerFacingSpec);
   const highlights = technicalSpecs.slice(0, 5);
+  const canonicalUrl = `https://${site.domain}/catalog/${item.slug}/`;
+  const imageUrls = [...new Set(item.gallery.map((photo) => new URL(photo.src, `https://${site.domain}`).toString()))];
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Product",
+        name: item.name,
+        description: getProductSeoDescription(item),
+        image: imageUrls,
+        brand: { "@type": "Brand", name: item.brand },
+        category: item.category === "snowbike" ? "Гусеничный комплект для эндуро" : "Снегоход",
+        url: canonicalUrl,
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Главная", item: `https://${site.domain}/` },
+          { "@type": "ListItem", position: 2, name: categoryLabel, item: `https://${site.domain}${categoryHref}/` },
+          { "@type": "ListItem", position: 3, name: item.name, item: canonicalUrl },
+        ],
+      },
+    ],
+  };
+  const structuredDataJson = JSON.stringify(structuredData).replace(/</g, "\\u003c");
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: structuredDataJson }} />
       <section className="product-detail-hero page-shell">
         <div className="breadcrumbs"><Link href="/">Главная</Link><span>/</span><Link href={categoryHref}>{categoryLabel}</Link><span>/</span><span>{item.name}</span></div>
         <div className="product-detail-hero__grid">

@@ -13,7 +13,7 @@ import { snowbikeKits } from "@/data/products";
 export const metadata: Metadata = {
   title: "Snowbike-комплекты для эндуро",
   description: "Как работает Snowbike-комплект: задний гусеничный модуль и передняя лыжа. Совместимость и состав проверяются для конкретного мотоцикла.",
-  alternates: { canonical: "/snowbike" },
+  alternates: { canonical: "/snowbike/" },
   openGraph: { title: "Snowbike-комплекты для эндуро", description: "Как работает Snowbike-комплект: задний гусеничный модуль и передняя лыжа. Совместимость проверяется для конкретного мотоцикла.", url: "/snowbike" },
 };
 
