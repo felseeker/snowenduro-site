@@ -53,6 +53,17 @@ export default async function SnowmobileProductPage({ params }: ProductPageProps
   const similar = products.filter((other) => other.category === item.category && other.slug !== item.slug).slice(0, 4);
   const categoryHref = item.category === "snowbike" ? "/snowbike" : "/catalog";
   const categoryLabel = item.category === "snowbike" ? "Snowbike" : "Снегоходы";
+  const availability = item.availability || "on_order";
+  const availabilityLabel = {
+    in_stock: "В наличии",
+    on_order: "Под заказ",
+    out_of_stock: "Нет в наличии",
+  }[availability];
+  const schemaAvailability = {
+    in_stock: "InStock",
+    on_order: "PreOrder",
+    out_of_stock: "OutOfStock",
+  }[availability];
   const technicalSpecs = item.specs.filter(isCustomerFacingSpec);
   const highlights = technicalSpecs.slice(0, 5);
   const canonicalUrl = `https://${site.domain}/catalog/${item.slug}/`;
@@ -68,6 +79,13 @@ export default async function SnowmobileProductPage({ params }: ProductPageProps
         brand: { "@type": "Brand", name: item.brand },
         category: item.category === "snowbike" ? "Гусеничный комплект для эндуро" : "Снегоход",
         url: canonicalUrl,
+        offers: item.price === null ? undefined : {
+          "@type": "Offer",
+          price: item.price,
+          priceCurrency: "RUB",
+          availability: `https://schema.org/${schemaAvailability}`,
+          url: canonicalUrl,
+        },
       },
       {
         "@type": "BreadcrumbList",
@@ -90,10 +108,11 @@ export default async function SnowmobileProductPage({ params }: ProductPageProps
           <ProductGallery images={item.gallery} />
           <div className="product-summary">
             <span className="eyebrow"><span className="eyebrow__pip" />{item.brand} / {item.purpose}</span>
-            <h1>{item.name}<br /><em>под заказ.</em></h1>
+            <h1>{item.name}<br /><em>{availabilityLabel.toLowerCase()}.</em></h1>
             <p>{item.summary}</p>
             <div className="product-summary__tags">{item.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
             <div className="product-summary__price"><span>Цена</span><strong>{displayPrice(item.price)}</strong>{item.price !== null && <small>{priceNote}</small>}</div>
+            <p className={`product-summary__availability product-summary__availability--${availability}`}><span />{availabilityLabel}</p>
             <div className="product-summary__actions"><Link className="button button--primary" href="/about#contacts">Связаться с менеджерами <ArrowRight size={16} /></Link><Link className="button button--outline" href="/delivery">Условия заказа</Link></div>
           </div>
         </div>

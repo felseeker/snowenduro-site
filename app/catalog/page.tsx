@@ -14,11 +14,11 @@ export const metadata: Metadata = {
   openGraph: { title: "Каталог снегоходов под заказ", description: "Компактные и полноразмерные модели WOIDEAL, TaoMotor и AODES для разных зимних маршрутов.", url: "/catalog" },
 };
 
-const modelHighlights = [
-  { icon: <PackageSearch size={17} />, name: "Компактные модели", text: "WD150 · WD160 · TaoMotor Snowfox", slug: "woideal-wd160" },
-  { icon: <Compass size={17} />, name: "Для маршрута и хозяйства", text: "Snowcross 800 WT · AlpineCross 1000", slug: "aodes-snowcross-800-wt" },
-  { icon: <Snowflake size={17} />, name: "Широкий выбор AODES", text: "Snowcross 1000 WT · SWT", slug: "aodes-snowcross-1000-wt" },
-];
+const highlightIcons = [PackageSearch, Compass, Snowflake];
+const modelHighlights = snowmobiles.slice(0, 3).map((item, index) => {
+  const Icon = highlightIcons[index];
+  return { icon: <Icon size={17} />, name: item.name, text: item.summary, slug: item.slug };
+});
 
 function modelWord(count: number) {
   const lastTwo = count % 100;
@@ -30,7 +30,7 @@ function modelWord(count: number) {
 }
 
 const pricedModels = snowmobiles.flatMap((item) => item.price === null ? [] : [item.price]);
-const minPrice = Math.min(...pricedModels);
+const minPrice = pricedModels.length ? Math.min(...pricedModels) : null;
 
 export default function CatalogPage() {
   return (
@@ -44,7 +44,7 @@ export default function CatalogPage() {
           <h1>Снегоход<br /><em>под ваш маршрут.</em></h1>
           <p>Компактные снегоходы для коротких поездок и полноразмерные модели для зимних маршрутов, глубокого снега и хозяйственных задач. Сравните двигатель, гусеницу и характер каждой машины.</p>
           <div className="page-hero__actions"><a className="button button--primary" href="#catalog">Сравнить модели <ArrowRight size={17} /></a><Link className="button button--ghost" href="/delivery"><span className="play-mark"><ArrowUpRight size={14} /></span>Как устроена доставка</Link></div>
-          <div className="page-hero__facts"><span><Snowflake size={17} />{snowmobiles.length} {modelWord(snowmobiles.length)}</span><span><Compass size={17} />Компактные и полноразмерные</span><span><ArrowUpRight size={17} />Ориентир от {formatPrice(minPrice)}</span></div>
+          <div className="page-hero__facts"><span><Snowflake size={17} />{snowmobiles.length} {modelWord(snowmobiles.length)}</span><span><Compass size={17} />Компактные и полноразмерные</span><span><ArrowUpRight size={17} />{minPrice === null ? "Цены по запросу" : `Ориентир от ${formatPrice(minPrice)}`}</span></div>
         </div>
       </section>
 
