@@ -5,9 +5,8 @@ on:
     branches:
       - main
   workflow_dispatch:
-  repository_dispatch:
-    types:
-      - snowenduro_catalog_publish
+  schedule:
+    - cron: "*/10 * * * *"
 
 permissions:
   contents: read
@@ -18,7 +17,7 @@ concurrency:
 
 jobs:
   build-and-deploy:
-    if: ${{ github.ref == 'refs/heads/main' && (github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch' || !github.event.repository.private) }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -29,9 +28,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     env:
       CRM_PUBLIC_PRODUCTS_URL: ${{ vars.CRM_PUBLIC_PRODUCTS_URL }}
+      CRM_SYNC_QUEUE_URL: ${{ vars.CRM_SYNC_QUEUE_URL }}
       CRM_SYNC_CALLBACK_URL: ${{ vars.CRM_SYNC_CALLBACK_URL }}
       CRM_SYNC_CALLBACK_TOKEN: ${{ secrets.CRM_SYNC_CALLBACK_TOKEN }}
-      PUBLICATION_ID: ${{ github.event.client_payload.publication_id }}
       NEXT_PUBLIC_CRM_URL: ${{ vars.NEXT_PUBLIC_CRM_URL }}
       NEXT_PUBLIC_CRM_LEADS_ENABLED: ${{ vars.NEXT_PUBLIC_CRM_LEADS_ENABLED }}
     steps:
@@ -44,12 +43,13 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Copy published catalog from CRM
-        if: ${{ github.event_name == 'repository_dispatch' }}
+      - name: Check for a requested catalog publication
+        id: sync
+        if: ${{ env.CRM_SYNC_QUEUE_URL != '' }}
         run: node scripts/sync-crm-catalog.mjs
 
       - name: Save catalog and uploaded photos
-        if: ${{ github.event_name == 'repository_dispatch' }}
+        if: ${{ steps.sync.outputs.pending == 'true' && steps.sync.outputs.changed == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -59,33 +59,40 @@ jobs:
           fi
 
       - name: Install dependencies
+        if: ${{ github.event_name != 'schedule' || steps.sync.outputs.pending == 'true' }}
         run: npm ci
 
       - name: Configure GitHub Pages
+        if: ${{ github.event_name != 'schedule' || steps.sync.outputs.pending == 'true' }}
         uses: actions/configure-pages@v5
 
       - name: Build static site
+        if: ${{ github.event_name != 'schedule' || steps.sync.outputs.pending == 'true' }}
         run: npm run build
 
       - name: Upload Pages artifact
+        if: ${{ github.event_name != 'schedule' || steps.sync.outputs.pending == 'true' }}
         uses: actions/upload-pages-artifact@v4
         with:
           path: ./out
 
       - name: Deploy to GitHub Pages
         id: deployment
+        if: ${{ github.event_name != 'schedule' || steps.sync.outputs.pending == 'true' }}
         uses: actions/deploy-pages@v4
 
       - name: Mark catalog publication complete in CRM
-        if: ${{ always() && github.event_name == 'repository_dispatch' && steps.deployment.outcome == 'success' }}
+        if: ${{ always() && steps.sync.outputs.pending == 'true' && steps.deployment.outcome == 'success' }}
         continue-on-error: true
         env:
           PUBLICATION_STATUS: succeeded
+          PUBLICATION_ID: ${{ steps.sync.outputs.publication_id }}
         run: node scripts/notify-crm-catalog-publication.mjs
 
       - name: Mark catalog publication failed in CRM
-        if: ${{ always() && github.event_name == 'repository_dispatch' && job.status == 'failure' }}
+        if: ${{ always() && steps.sync.outputs.pending == 'true' && job.status == 'failure' }}
         continue-on-error: true
         env:
           PUBLICATION_STATUS: failed
+          PUBLICATION_ID: ${{ steps.sync.outputs.publication_id }}
         run: node scripts/notify-crm-catalog-publication.mjs

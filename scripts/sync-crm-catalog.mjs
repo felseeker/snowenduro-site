@@ -1,30 +1,65 @@
 import { existsSync } from "node:fs";
-import { mkdir, readFile, realpath, rename, writeFile } from "node:fs/promises";
+import { appendFile, mkdir, readFile, realpath, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const root = process.cwd();
 const outputPath = path.resolve(root, process.env.CRM_CATALOG_OUTPUT || "data/products.crm.json");
 const publicDir = path.resolve(root, process.env.CRM_PUBLIC_DIR || "public");
 const inputFile = process.env.CRM_PRODUCTS_JSON_FILE;
+const queueUrl = process.env.CRM_SYNC_QUEUE_URL ? new URL(process.env.CRM_SYNC_QUEUE_URL) : null;
 const apiUrl = process.env.CRM_PUBLIC_PRODUCTS_URL ? new URL(process.env.CRM_PUBLIC_PRODUCTS_URL) : null;
+const syncToken = process.env.CRM_SYNC_CALLBACK_TOKEN || "";
 const allowedAvailability = new Set(["in_stock", "on_order", "out_of_stock"]);
 const allowedCategories = new Set(["snowbike", "snowmobile"]);
 const uploadedAssetCache = new Map();
+let publicationId = "";
+let pending = false;
 
-if (!inputFile && !apiUrl) throw new Error("Set CRM_PUBLIC_PRODUCTS_URL or CRM_PRODUCTS_JSON_FILE.");
+function output(name, value) {
+  if (process.env.GITHUB_OUTPUT) return appendFile(process.env.GITHUB_OUTPUT, `${name}=${value}\n`, "utf8");
+  return Promise.resolve();
+}
+
+if (!inputFile && !queueUrl && !apiUrl) throw new Error("Set CRM_SYNC_QUEUE_URL or CRM_PUBLIC_PRODUCTS_URL.");
+if (queueUrl && queueUrl.protocol !== "https:") throw new Error("The CRM sync queue must use HTTPS.");
 if (apiUrl && apiUrl.protocol !== "https:" && apiUrl.hostname !== "127.0.0.1" && apiUrl.hostname !== "localhost") {
   throw new Error("The CRM catalog endpoint must use HTTPS.");
 }
 
-const raw = inputFile
-  ? JSON.parse(await readFile(path.resolve(root, inputFile), "utf8"))
-  : await fetchProducts(apiUrl);
+let raw;
+if (inputFile) {
+  raw = JSON.parse(await readFile(path.resolve(root, inputFile), "utf8"));
+  pending = true;
+} else if (queueUrl) {
+  if (!syncToken) throw new Error("CRM_SYNC_CALLBACK_TOKEN is required for catalog sync.");
+  const response = await fetch(queueUrl, {
+    headers: { Authorization: `Bearer ${syncToken}`, Accept: "application/json" },
+    signal: AbortSignal.timeout(30_000),
+  });
+  if (!response.ok) throw new Error(`CRM sync queue returned HTTP ${response.status}.`);
+  const queue = await response.json();
+  if (!queue.pending) {
+    await output("pending", "false");
+    await output("changed", "false");
+    await output("publication_id", "");
+    console.log("No catalog publication is waiting.");
+    process.exit(0);
+  }
+  pending = true;
+  publicationId = String(queue.publication_id || "");
+  if (!/^[a-f0-9-]{36}$/i.test(publicationId)) throw new Error("CRM returned an invalid publication ID.");
+  raw = queue.products;
+} else {
+  raw = await fetchProducts(apiUrl);
+}
+
 if (!Array.isArray(raw) || raw.length === 0 || raw.length > 500) {
   throw new Error("CRM returned an empty catalog or more than 500 products; the current website catalog was left unchanged.");
 }
 
 const products = [];
 const slugs = new Set();
+let changed = false;
 for (const [productIndex, row] of raw.entries()) {
   const source = row?.data && typeof row.data === "object" ? row.data : row;
   const product = {
@@ -48,10 +83,18 @@ for (const [productIndex, row] of raw.entries()) {
 }
 
 await mkdir(path.dirname(outputPath), { recursive: true });
-const temporaryPath = `${outputPath}.tmp`;
-await writeFile(temporaryPath, `${JSON.stringify(products, null, 2)}\n`, "utf8");
-await rename(temporaryPath, outputPath);
-console.log(`Catalog prepared: ${products.length} products.`);
+const serialized = `${JSON.stringify(products, null, 2)}\n`;
+const previous = existsSync(outputPath) ? await readFile(outputPath, "utf8") : "";
+if (previous !== serialized) {
+  const temporaryPath = `${outputPath}.tmp`;
+  await writeFile(temporaryPath, serialized, "utf8");
+  await rename(temporaryPath, outputPath);
+  changed = true;
+}
+await output("pending", pending ? "true" : "false");
+await output("changed", changed ? "true" : "false");
+await output("publication_id", publicationId);
+console.log(`Catalog prepared: ${products.length} products${changed ? " (updated)" : " (unchanged)"}.`);
 
 async function fetchProducts(url) {
   const response = await fetch(url, { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(30_000) });
@@ -99,7 +142,7 @@ async function rewriteImage(source, slug, index) {
   const response = await fetch(assetUrl, { signal: AbortSignal.timeout(30_000) });
   if (!response.ok) throw new Error(`Could not download an uploaded image for ${slug} (HTTP ${response.status}).`);
   const bytes = Buffer.from(await response.arrayBuffer());
-  if (!bytes.length || bytes.length > 12 * 1024 * 1024) throw new Error(`Uploaded image for ${slug} is empty or too large.`);
+  if (!bytes.length || bytes.length > 2 * 1024 * 1024) throw new Error(`Uploaded image for ${slug} is empty or too large.`);
   const extension = match[2].toLowerCase();
   const contentType = response.headers.get("content-type")?.split(";")[0].toLowerCase();
   const expectedType = { jpg: "image/jpeg", png: "image/png", webp: "image/webp", avif: "image/avif" }[extension];
@@ -109,7 +152,11 @@ async function rewriteImage(source, slug, index) {
   const destination = path.resolve(publicDir, `.${relativePath}`);
   if (!destination.startsWith(`${publicDir}${path.sep}`)) throw new Error(`Unsafe asset destination for ${slug}.`);
   await mkdir(path.dirname(destination), { recursive: true });
-  await writeFile(destination, bytes);
+  const old = existsSync(destination) ? await readFile(destination) : null;
+  if (!old || !old.equals(bytes)) {
+    await writeFile(destination, bytes);
+    changed = true;
+  }
   uploadedAssetCache.set(cacheKey, relativePath);
   return relativePath;
 }
