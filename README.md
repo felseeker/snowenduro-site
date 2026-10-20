@@ -39,14 +39,13 @@ npm run dev
 
 ## CRM: заявки и каталог
 
-Форма отправляет лиды через `POST /api/public/leads`, когда заданы `NEXT_PUBLIC_CRM_URL` и `NEXT_PUBLIC_CRM_LEADS_ENABLED=true`. Для локального теста сайта на `127.0.0.1:3000` можно использовать `.env.local`:
+Форма отправляет лиды через `POST /api/public/leads`, когда задан `NEXT_PUBLIC_CRM_URL`. Для локального теста сайта на `127.0.0.1:3000` можно использовать `.env.local`:
 
 ```dotenv
 NEXT_PUBLIC_CRM_URL=http://127.0.0.1:4173
-NEXT_PUBLIC_CRM_LEADS_ENABLED=true
 ```
 
-На CRM-сервере для такого локального теста укажите `WEBSITE_ORIGIN=http://127.0.0.1:3000`. В публичной сборке GitHub Pages адрес CRM задаётся переменной Actions `NEXT_PUBLIC_CRM_URL`, а `NEXT_PUBLIC_CRM_LEADS_ENABLED` включается только после публикации доступного по HTTPS сервера CRM и обновления `/privacy` под фактическое хранение данных.
+На CRM-сервере для такого локального теста укажите `WEBSITE_ORIGIN=http://127.0.0.1:3000`. В публичной сборке GitHub Pages адрес CRM задаётся переменной Actions `NEXT_PUBLIC_CRM_URL`; если адрес не задан, форма остаётся в режиме проверки.
 
 Каталог публикуется из CRM через событие GitHub Actions `snowenduro_catalog_publish`. Workflow загружает только опубликованные карточки и фотографии; заявки клиентов и другие данные CRM в репозиторий не передаются. Для этого нужны доступный HTTPS endpoint CRM и локальные серверные токены, перечисленные в документации CRM. Без такой доступной извне CRM синхронизация работает только в локальном preview.
 

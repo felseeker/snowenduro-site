@@ -32,7 +32,6 @@ jobs:
       CRM_SYNC_CALLBACK_URL: ${{ vars.CRM_SYNC_CALLBACK_URL }}
       CRM_SYNC_CALLBACK_TOKEN: ${{ secrets.CRM_SYNC_CALLBACK_TOKEN }}
       NEXT_PUBLIC_CRM_URL: ${{ vars.NEXT_PUBLIC_CRM_URL }}
-      NEXT_PUBLIC_CRM_LEADS_ENABLED: ${{ vars.NEXT_PUBLIC_CRM_LEADS_ENABLED }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6

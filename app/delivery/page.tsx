@@ -89,7 +89,7 @@ export default function DeliveryPage() {
         <div className="faq-layout"><div><SectionHeading eyebrow="Вопросы о доставке" title="Спокойно разберём детали" description="Путь и документы зависят от выбранной модели. Сложные вопросы проверим до заказа." /></div><FaqList items={faqs} /></div>
       </section>
 
-      <FinalCTA eyebrow="Контакты менеджеров" title="Изучите маршрут и условия." description="Форма ниже демонстрационная. По моделям и условиям поставки можно обратиться к менеджерам напрямую." />
+      <FinalCTA eyebrow="Контакты менеджеров" title="Изучите маршрут и условия." description="Оставьте заявку — менеджер уточнит выбранную модель и условия поставки." />
     </>
   );
 }

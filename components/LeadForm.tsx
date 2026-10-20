@@ -14,7 +14,7 @@ type LeadFormProps = {
 };
 
 const crmUrl = process.env.NEXT_PUBLIC_CRM_URL?.replace(/\/+$/, "") || "";
-const liveSubmissionEnabled = process.env.NEXT_PUBLIC_CRM_LEADS_ENABLED === "true" && Boolean(crmUrl);
+const liveSubmissionEnabled = Boolean(crmUrl);
 
 export function LeadForm({ mode = "request", topic, compact = false, buttonLabel }: LeadFormProps) {
   const [result, setResult] = useState("");
@@ -51,7 +51,7 @@ export function LeadForm({ mode = "request", topic, compact = false, buttonLabel
           compatibility_model: compatibility ? String(values.get("bike-model") || "") : null,
           compatibility_year: compatibility ? Number(values.get("bike-year")) : null,
           consent: values.get("consent") === "on",
-          consent_policy_version: "2026-10-09-v1",
+          consent_policy_version: "2026-10-20-v2",
           idempotency_key: idempotencyKey.current,
           website: String(values.get("website") || ""),
         }),
